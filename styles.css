@@ -1,8 +1,30 @@
 :root {
-    --primary-color: #ea4c89;  /* Dribbble 粉色 */
-    --text-color: #0d0c22;
+    /* 绿色主题 */
+    --green-primary: #4B5945;
+    --green-light: #91AC8F;
+    --green-dark: #66785F;
+    
+    /* 暖色主题 */
+    --warm-primary: #DEAA79;
+    --warm-light: #FFE6A9;
+    --warm-dark: #B1C29E;
+    
+    /* 粉色主题 */
+    --pink-primary: #E6A4B4;
+    --pink-light: #F5EEE6;
+    --pink-dark: #F3D7CA;
+    
+    /* 通用文字颜色 */
+    --text-dark: #2C3E50;    /* 主要文字颜色 */
+    --text-gray: #505965;    /* 次要文字颜色 */
+    
+    /* 默认使用绿色主题 */
+    --primary-color: var(--green-primary);
+    --primary-light: var(--green-light);
+    --primary-dark: var(--green-dark);
+    --text-color: var(--text-dark);
     --background-color: #fff;
-    --card-background: #f8f7f4;
+    --card-background: rgba(145, 172, 143, 0.1);
 }
 
 * {
@@ -14,7 +36,7 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     line-height: 1.6;
-    color: var(--text-color);
+    color: var(--text-dark);
     background: var(--background-color);
 }
 
@@ -50,7 +72,7 @@ nav {
 
 .nav-links a {
     text-decoration: none;
-    color: var(--text-color);
+    color: var(--text-dark);
     font-weight: 500;
 }
 
@@ -62,7 +84,7 @@ main {
 .hero {
     text-align: center;
     padding: 6rem 0;
-    background: linear-gradient(135deg, #fdf6f9, #fff);
+    background: var(--primary-light);
     border-radius: 24px;
     margin-bottom: 4rem;
 }
@@ -70,15 +92,28 @@ main {
 .hero h1 {
     font-size: 3.5rem;
     font-weight: 700;
-    margin-bottom: 1rem;
-    background: linear-gradient(90deg, var(--text-color), var(--primary-color));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+    color: var(--text-dark);
+    -webkit-text-fill-color: initial;
+}
+
+.hero-en {
+    font-size: 2.8rem !important;
+    margin-bottom: 2rem !important;
+    color: var(--primary-color) !important;
+    -webkit-text-fill-color: var(--primary-color) !important;
 }
 
 .hero p {
     font-size: 1.2rem;
-    color: #666;
+    color: var(--text-gray);
+    margin-bottom: 0.3rem;
+}
+
+.subtitle-en {
+    font-size: 1rem !important;
+    color: var(--text-gray);
+    opacity: 0.9;
 }
 
 .apps-grid {
@@ -91,6 +126,7 @@ h2 {
     font-size: 2.5rem;
     margin-bottom: 3rem;
     text-align: center;
+    color: var(--text-dark);
 }
 
 .app-cards {
@@ -100,17 +136,18 @@ h2 {
 }
 
 .app-card {
-    background: var(--background-color);
+    background: #fff;
     border-radius: 16px;
     padding: 2rem;
     text-align: center;
     transition: all 0.3s ease;
-    border: 1px solid rgba(0,0,0,0.1);
+    border: 2px solid var(--primary-light);
 }
 
 .app-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    border-color: var(--primary-color);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
 }
 
 .app-icon {
@@ -124,17 +161,18 @@ h2 {
     align-items: center;
     gap: 0.5rem;
     background: var(--primary-color);
-    color: white;
+    color: #fff;
     padding: 0.8rem 1.5rem;
     border-radius: 12px;
     text-decoration: none;
     margin-top: 1.5rem;
     font-weight: 500;
     transition: all 0.3s ease;
+    border: none;
 }
 
 .app-store-button:hover {
-    background: #d73870;
+    background: var(--primary-dark);
     transform: translateY(-2px);
 }
 
@@ -146,7 +184,14 @@ h2 {
 
 .about-description {
     font-size: 1.2rem;
-    margin: 2rem 0;
+    margin-bottom: 0.5rem;
+    color: var(--text-dark);
+}
+
+.about-description-en {
+    font-size: 1.1rem;
+    color: var(--text-gray);
+    margin-bottom: 2rem;
 }
 
 .contact-button {
@@ -154,21 +199,22 @@ h2 {
     align-items: center;
     gap: 0.8rem;
     background: var(--primary-color);
-    color: white;
+    color: #fff;
     padding: 1rem 2rem;
     border-radius: 12px;
     text-decoration: none;
     font-weight: 500;
     transition: all 0.3s ease;
+    border: none;
 }
 
 .contact-button:hover {
-    background: #d73870;
+    background: var(--primary-dark);
     transform: translateY(-2px);
 }
 
 footer {
-    background: var(--card-background);
+    background: var(--primary-light);
     padding: 3rem;
     margin-top: 4rem;
     text-align: center;
@@ -179,14 +225,15 @@ footer {
 }
 
 .footer-links a {
-    color: var(--text-color);
+    color: var(--text-dark);
     text-decoration: none;
     margin: 0 1rem;
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 .copyright {
-    color: #666;
+    color: var(--text-gray);
+    opacity: 0.8;
     font-size: 0.9rem;
 }
 
@@ -199,6 +246,10 @@ footer {
         font-size: 2.5rem;
     }
     
+    .hero-en {
+        font-size: 2rem !important;
+    }
+    
     .app-cards {
         grid-template-columns: 1fr;
     }
@@ -207,3 +258,76 @@ footer {
         padding: 4rem 1rem;
     }
 } 
+
+/* 更新主题切换按钮样式 */
+.theme-switcher {
+    display: flex;
+    gap: 0.7rem;
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    padding: 0.7rem;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    z-index: 100;
+}
+
+.theme-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.theme-btn:hover {
+    transform: translateY(-2px);
+}
+
+.theme-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--primary-color);
+}
+
+/* 更新主题按钮颜色 */
+.theme-1 {
+    background: var(--green-primary);
+}
+
+.theme-2 {
+    background: var(--warm-primary);
+}
+
+.theme-3 {
+    background: var(--pink-primary);
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .theme-switcher {
+        bottom: 1.5rem;
+        right: 1.5rem;
+    }
+} 
+
+/* 更新按钮文字颜色 */
+.app-store-button, .contact-button {
+    color: #fff;
+    font-weight: 600;  /* 加粗按钮文字 */
+}
+
+/* 更新卡片标题颜色 */
+.app-card h3 {
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}

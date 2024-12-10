@@ -11,6 +11,11 @@
     <header>
         <nav>
             <div class="logo">Yeshu</div>
+            <div class="theme-switcher">
+                <button class="theme-btn theme-1 active" data-theme="green"></button>
+                <button class="theme-btn theme-2" data-theme="warm"></button>
+                <button class="theme-btn theme-3" data-theme="pink"></button>
+            </div>
             <ul class="nav-links">
                 <li><a href="#apps">作品</a></li>
                 <li><a href="#about">关于</a></li>
@@ -22,7 +27,9 @@
     <main>
         <section class="hero">
             <h1>写代码，玩滑雪</h1>
+            <h1 class="hero-en">Coding & Skiing</h1>
             <p>软件开发者 / 运动爱好者</p>
+            <p class="subtitle-en">Software Developer / Sports Enthusiast</p>
         </section>
 
         <section id="apps" class="apps-grid">
@@ -53,12 +60,15 @@
         </section>
 
         <section id="about" class="about">
-            <h2>关于我</h2>
-            <p class="about-description">软件开发者，喜欢写代码，热爱户外运动</p>
+            <h2>关于我 / About</h2>
+            <div class="about-content">
+                <p class="about-description">软件开发者，喜欢写代码，热爱户外运动</p>
+                <p class="about-description-en">Software developer who loves coding and outdoor sports</p>
+            </div>
         </section>
 
         <section id="contact" class="contact">
-            <h2>联系我</h2>
+            <h2>联系我 / Contact</h2>
             <div class="contact-buttons">
                 <a href="mailto:guan.yeshu@gmail.com" class="contact-button">
                     <i class="fas fa-envelope"></i> guan.yeshu@gmail.com
@@ -76,5 +86,6 @@
             <p class="copyright">© 2024 Yeshu. All rights reserved.</p>
         </div>
     </footer>
+    <script src="theme.js"></script>
 </body>
 </html>
