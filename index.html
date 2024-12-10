@@ -1,17 +1,80 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yeshu Apps</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <h1>App List</h1>
-    <ul>
-        <li><a href="https://apps.apple.com/us/app/%E6%95%B0%E7%8B%AC-%E7%AE%80%E6%B4%81%E6%97%A0%E5%B9%BF%E5%91%8A%E6%95%B0%E7%8B%AC%E6%B8%B8%E6%88%8F/id1591771209">Sudoku</a></li>
-        <li><a href="https://apps.apple.com/us/app/%E5%B1%B1%E6%B5%B7-%E6%97%85%E8%A1%8C%E6%B8%85%E5%8D%95-%E6%97%85%E8%A1%8C%E6%97%A5%E8%AE%B0/id6465693593">Travel Book</a></li>
-    </ul>
+    <header>
+        <nav>
+            <div class="logo">Yeshu</div>
+            <ul class="nav-links">
+                <li><a href="#apps">作品</a></li>
+                <li><a href="#about">关于</a></li>
+                <li><a href="#contact">联系</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>写代码，玩滑雪</h1>
+            <p>软件开发者 / 运动爱好者</p>
+        </section>
+
+        <section id="apps" class="apps-grid">
+            <h2>作品展示</h2>
+            <div class="app-cards">
+                <div class="app-card">
+                    <div class="app-icon">
+                        <i class="fas fa-th"></i>
+                    </div>
+                    <h3>数独</h3>
+                    <p>简洁无广告的数独游戏</p>
+                    <a href="https://apps.apple.com/us/app/%E6%95%B0%E7%8B%AC-%E7%AE%80%E6%B4%81%E6%97%A0%E5%B9%BF%E5%91%8A%E6%95%B0%E7%8B%AC%E6%B8%B8%E6%88%8F/id1591771209" class="app-store-button">
+                        <i class="fab fa-app-store-ios"></i> App Store
+                    </a>
+                </div>
+                
+                <div class="app-card">
+                    <div class="app-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h3>旅行清单</h3>
+                    <p>旅行规划工具</p>
+                    <a href="https://apps.apple.com/us/app/%E5%B1%B1%E6%B5%B7-%E6%97%85%E8%A1%8C%E6%B8%85%E5%8D%95-%E6%97%85%E8%A1%8C%E6%97%A5%E8%AE%B0/id6465693593" class="app-store-button">
+                        <i class="fab fa-app-store-ios"></i> App Store
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about">
+            <h2>关于我</h2>
+            <p class="about-description">软件开发者，喜欢写代码，热爱户外运动</p>
+        </section>
+
+        <section id="contact" class="contact">
+            <h2>联系我</h2>
+            <div class="contact-buttons">
+                <a href="mailto:guan.yeshu@gmail.com" class="contact-button">
+                    <i class="fas fa-envelope"></i> guan.yeshu@gmail.com
+                </a>
+            </div>
+        </section>
+    </main>
+
     <footer>
-        <p><a href="agreement.html">Agreement</a></p>
-        <p><a href="app-ads.txt">app-ads.txt</a></p>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="privacy.html">隐私政策</a>
+                <a href="agreement.html">用户协议</a>
+            </div>
+            <p class="copyright">© 2024 Yeshu. All rights reserved.</p>
+        </div>
     </footer>
 </body>
 </html>
