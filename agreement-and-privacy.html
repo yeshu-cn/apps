@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Agreement and Privacy</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            background-color: #f8f9fa;
+            color: #333;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: #4a90e2;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        h1 {
+            color: white;
+            font-size: 1.8em;
+            margin: 0;
+        }
+
+        h2 {
+            color: #2c3e50;
+            font-size: 1.4em;
+            margin: 25px 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .language-switch {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #4a90e2;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.3s;
+        }
+
+        .language-switch:hover {
+            background-color: #357abd;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .language-switch {
+                top: 10px;
+                right: 10px;
+            }
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+    </style>
+</head>
+<body>
+    <button class="language-switch" onclick="toggleLanguage()">Switch to English</button>
+
+    <div class="container">
+        <div class="header">
+            <h1>用户协议与隐私政策</h1>
+        </div>
+
+        <div class="content">
+            <!-- 中文版本 -->
+            <div id="chinese">
+                <div class="section">
+                    <h2>1. 数据收集和使用</h2>
+                    <p>我们收集并使用您的个人信息是为了向您提供更好的产品和服务。我们收集的信息包括但不限于您的姓名、电子邮件地址、设备信息等。我们可能会使用收集的信息进行数据分析、优化产品和服务、提供个性化内容等目的。</p>
+                </div>
+
+                <div class="section">
+                    <h2>2. 隐私权保护</h2>
+                    <p>我们重视并尊重您的隐私权。我们将采取符合行业标准的安全措施来保护您的个人信息免受未经授权的访问、使用或泄露。</p>
+                </div>
+
+                <div class="section">
+                    <h2>3. 第三方服务</h2>
+                    <p>我们的产品集成了友盟+SDK。友盟+SDK需要收集您的设备Mac地址、唯一设备识别码（IMEI/android ID/IDFA/OPENUDID/IP地址/GUID、SIM 卡 IMSI 信息）以提供统计分析服务，并通过地理位置校准报表数据准确性，提供基础反作弊能力。</p>
+                </div>
+
+                <div class="section">
+                    <h2>4. 您的权利</h2>
+                    <p>您有权访问、更正、删除或限制处理您的个人信息。如果您有任何疑问或需要行使您的权利，请随时与我们联系。</p>
+                </div>
+
+                <div class="section">
+                    <h2>5. 用户行为规范</h2>
+                    <p>您同意不发布任何违法、骚扰、中伤、色情或其他不当内容。您还同意不滥用或干扰我们的产品和服务。</p>
+                </div>
+
+                <div class="section">
+                    <h2>6. 知识产权</h2>
+                    <p>我们的产品和服务中包含的所有内容，包括但不限于文本、图形、徽标、按钮图标、图像、音频剪辑和软件，均归我们所有，受版权、商标和其他适用法律的保护。</p>
+                </div>
+
+                <div class="section">
+                    <h2>7. 责任限制</h2>
+                    <p>在适用法律允许的最大范围内，我们对于因使用我们的产品和服务而造成的任何直接、间接、附带、特殊或后果性的损失概不负责。</p>
+                </div>
+            </div>
+
+            <!-- 英文版本 -->
+            <div id="english" class="hidden">
+                <div class="section">
+                    <h2>1. Data Collection and Usage</h2>
+                    <p>We collect and use your personal information to provide you with better products and services. The information we collect includes but is not limited to your name, email address, device information, etc. We may use the collected information for data analysis, product optimization, personalized content delivery, and other purposes.</p>
+                </div>
+
+                <div class="section">
+                    <h2>2. Privacy Protection</h2>
+                    <p>We value and respect your privacy rights. We will take industry-standard security measures to protect your personal information from unauthorized access, use, or disclosure.</p>
+                </div>
+
+                <div class="section">
+                    <h2>3. Third-party Services</h2>
+                    <p>Our products integrate UMeng+ SDK. UMeng+ SDK needs to collect your device MAC address, unique device identification (IMEI/android ID/IDFA/OPENUDID/IP address/GUID, SIM card IMSI information) to provide statistical analysis services and calibrate report data accuracy through geolocation.</p>
+                </div>
+
+                <div class="section">
+                    <h2>4. Your Rights</h2>
+                    <p>You have the right to access, correct, delete or limit the processing of your personal information. If you have any questions or need to exercise your rights, please feel free to contact us.</p>
+                </div>
+
+                <div class="section">
+                    <h2>5. User Conduct</h2>
+                    <p>You agree not to post any illegal, harassing, defamatory, pornographic, or other inappropriate content. You also agree not to abuse or interfere with our products and services.</p>
+                </div>
+
+                <div class="section">
+                    <h2>6. Intellectual Property</h2>
+                    <p>All content in our products and services, including but not limited to text, graphics, logos, button icons, images, audio clips, and software, belongs to us and is protected by copyright, trademark, and other applicable laws.</p>
+                </div>
+
+                <div class="section">
+                    <h2>7. Limitation of Liability</h2>
+                    <p>To the maximum extent permitted by applicable law, we are not liable for any direct, indirect, incidental, special, or consequential damages resulting from the use of our products and services.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleLanguage() {
+            const chineseVersion = document.getElementById('chinese');
+            const englishVersion = document.getElementById('english');
+            const languageButton = document.querySelector('.language-switch');
+            const headerTitle = document.querySelector('.header h1');
+
+            if (chineseVersion.classList.contains('hidden')) {
+                chineseVersion.classList.remove('hidden');
+                englishVersion.classList.add('hidden');
+                languageButton.textContent = 'Switch to English';
+                headerTitle.textContent = '用户协议与隐私政策';
+            } else {
+                chineseVersion.classList.add('hidden');
+                englishVersion.classList.remove('hidden');
+                languageButton.textContent = '切换到中文';
+                headerTitle.textContent = 'User Agreement and Privacy Policy';
+            }
+        }
+    </script>
+</body>
+</html> 
