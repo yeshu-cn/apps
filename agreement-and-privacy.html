@@ -187,6 +187,33 @@
     </div>
 
     <script>
+        // 获取URL中的语言参数
+        function getLanguageFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('lang');
+        }
+
+        // 设置初始语言
+        function setInitialLanguage() {
+            const lang = getLanguageFromUrl();
+            const chineseVersion = document.getElementById('chinese');
+            const englishVersion = document.getElementById('english');
+            const languageButton = document.querySelector('.language-switch');
+            const headerTitle = document.querySelector('.header h1');
+
+            if (lang === 'en') {
+                chineseVersion.classList.add('hidden');
+                englishVersion.classList.remove('hidden');
+                languageButton.textContent = 'Switch to Chinese';
+                headerTitle.textContent = 'Agreement and Privacy Policy';
+            } else {
+                chineseVersion.classList.remove('hidden');
+                englishVersion.classList.add('hidden');
+                languageButton.textContent = 'Switch to English';
+                headerTitle.textContent = '用户协议与隐私政策';
+            }
+        }
+
         function toggleLanguage() {
             const chineseVersion = document.getElementById('chinese');
             const englishVersion = document.getElementById('english');
@@ -198,13 +225,20 @@
                 englishVersion.classList.add('hidden');
                 languageButton.textContent = 'Switch to English';
                 headerTitle.textContent = '用户协议与隐私政策';
+                // 更新URL参数
+                window.history.replaceState({}, '', window.location.pathname + '?lang=zh');
             } else {
                 chineseVersion.classList.add('hidden');
                 englishVersion.classList.remove('hidden');
-                languageButton.textContent = '切换到中文';
-                headerTitle.textContent = 'User Agreement and Privacy Policy';
+                languageButton.textContent = 'Switch to Chinese';
+                headerTitle.textContent = 'Agreement and Privacy Policy';
+                // 更新URL参数
+                window.history.replaceState({}, '', window.location.pathname + '?lang=en');
             }
         }
+
+        // 页面加载时设置初始语言
+        document.addEventListener('DOMContentLoaded', setInitialLanguage);
     </script>
 </body>
-</html> 
+</html>
