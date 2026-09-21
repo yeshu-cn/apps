@@ -12,7 +12,7 @@ if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-mot
         });
     }, { threshold: 0.08 });
 
-    document.querySelectorAll('.project-copy, .about-copy').forEach((element) => {
+    document.querySelectorAll('.about-copy').forEach((element) => {
         if (element.getBoundingClientRect().top > window.innerHeight) {
             element.classList.add('reveal-ready');
             observer.observe(element);
