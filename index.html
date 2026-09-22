@@ -3,152 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Yeshu 的个人作品集。写代码，玩滑雪，也做一些日常用得上的小应用：数独、旅行清单和导游账本。">
-    <meta name="theme-color" content="#f7f7f0">
-    <title>Yeshu — 写代码，玩滑雪</title>
+    <meta name="description" content="Yeshu 的海岛小屋。写代码，玩单板，也做一些日常里的小工具。">
+    <meta name="theme-color" content="#bbd8ce">
+    <title>Yeshu — 做着玩，也用得上</title>
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="styles.css">
-    <script src="home.js" defer></script>
-    <script type="module" src="snow-scene.js"></script>
+    <link rel="stylesheet" href="room.css?v=snowboarder-20260922">
+    <script type="importmap">{"imports":{"three":"./assets/vendor/three/three.module.min.js"}}</script>
+    <script type="module" src="room.js?v=snowboarder-20260922"></script>
 </head>
 <body>
-    <a class="skip-link" href="#main">跳到主要内容</a>
-    <header class="site-header wrap">
-        <a class="wordmark" href="#" aria-label="Yeshu 首页">yeshu<span class="wordmark-dot">.</span></a>
-        <nav aria-label="主导航">
-            <a href="#apps">作品</a>
-            <a href="#about">关于</a>
-            <a href="#contact">联系 <span aria-hidden="true">↗</span></a>
-        </nav>
+<div class="page">
+    <a class="skip-link" href="#objects">浏览小房间里的应用</a>
+    <header class="site-header">
+        <a class="wordmark" href="./" aria-label="Yeshu 首页">yeshu.</a>
+        <nav aria-label="主导航"><a href="#about" data-open-panel>关于</a></nav>
     </header>
-
-    <main id="main">
-        <section class="hero wrap" aria-labelledby="hero-title">
-            <div class="hero-title">
-                <p class="eyebrow">独立开发者 · 户外爱好者</p>
-                <h1 id="hero-title">Yeshu<span>.</span></h1>
-                <p class="hero-line">写代码，玩滑雪。</p>
-            </div>
-            <div class="hero-outdoors">
-                <div class="snow-scene" id="snow-scene" role="img" aria-label="一座微缩雪山，松树环绕着弯曲的滑雪道">
-                    <svg class="snow-fallback" viewBox="0 0 560 380" aria-hidden="true">
-                        <ellipse cx="280" cy="321" rx="191" ry="23" fill="#253e34" opacity=".06"/>
-                        <path d="M76 259 172 216 324 212 482 271 420 316 232 339 88 294Z" fill="#b6c3ad"/>
-                        <path d="M76 259 146 174 213 66 274 153 326 108 402 212 482 271 409 301 233 319 88 283Z" fill="#f5f4e9"/>
-                        <path d="m213 66 61 87-26 28 58 95-93-41-67-61Z" fill="#d0d9c9"/>
-                        <path d="m326 108 76 104 80 59-73 30-62-87-54-42Z" fill="#e0e5d8"/>
-                        <path d="m213 66 32 47-22-9-10 17-10-16-24 11Z" fill="#fffef5"/>
-                        <path d="M275 173c80 25-101 37-13 67s99 41 62 55M279 170c80 25-101 37-13 67s99 41 62 55" fill="none" stroke="#a6b6a1" stroke-width="1.4"/>
-                        <g fill="#48694f"><path d="m143 218-18 39h36Zm-30 22-14 33h28Zm279 6-21 44h42Zm32-15-14 31h28Z"/><path d="m153 200-15 32h30Zm234 29-16 33h32Z" fill="#5c7c62"/></g>
-                        <g transform="translate(303 257) rotate(-22)"><path d="M-8 15h24M-9 20h24" stroke="#344a3b" stroke-width="2" stroke-linecap="round"/><path d="m1 4 4 6-3 5m3-5 6 4" fill="none" stroke="#354e3d" stroke-width="3"/><path d="m3 0 3 7" stroke="#ba7152" stroke-width="5" stroke-linecap="round"/><circle cx="2" cy="-4" r="3" fill="#344a3b"/></g>
-                    </svg>
-                </div>
-                <div class="snow-controls"><span class="snow-caption">去山里，滑一会儿。</span><button class="snow-toggle" type="button" aria-pressed="false" hidden>暂停动画</button></div>
-                <div class="hero-note">
-                    <p>在屏幕前做些小东西，也去屏幕外看看世界。</p>
-                    <a class="text-link" href="#apps">这里是我做的应用 <span aria-hidden="true">↓</span></a>
-                </div>
-            </div>
+    <main class="main">
+        <div class="intro"><p class="eyebrow">海边的小工作室</p><h1>在小岛上，慢慢做。</h1><p>写代码，玩单板。<span>也慢慢做些小东西。</span></p></div>
+        <section class="room-stage" id="room-stage" aria-label="海岛小屋：电脑桌、工作台、3D 打印机、Avata 2 穿越机和应用作品" data-view="island">
+            <canvas class="room-canvas" id="room-canvas" aria-hidden="true"></canvas>
+            <button id="resident-marker" class="resident-marker" type="button" aria-label="和人物打个招呼" title="打个招呼" hidden>你</button>
+            <div id="walk-controls" class="walk-controls" hidden><button id="walk-joystick" type="button" aria-label="拖动摇杆移动人物，松手停止"><span class="joystick-knob"></span></button><span class="joystick-caption">移动</span></div>
+            <nav class="objects" id="objects" aria-label="房间里的小东西">
+                <a class="room-object" href="divejournal/" data-app="divejournal" data-status="测试中" data-description="用文字、照片和录音留住潜水回忆，AI 协助整理。"><img src="assets/divejournal-icon.png" alt="" width="52" height="52" loading="eager"><span>潜水日记</span></a>
+                <a class="room-object" href="https://apps.apple.com/us/app/id1591771209" data-app="sudoku" data-status="App Store" data-description="从容易到进阶，在九宫格里专心解一道题。"><img src="assets/sudoku-icon.jpg" alt="" width="52" height="52" loading="eager"><span>数独</span></a>
+                <a class="room-object" href="https://apps.apple.com/us/app/id6465693593" data-app="trip" data-status="App Store" data-description="收好行前清单、路上的见闻，和旅途中的花销。"><img src="assets/trip-note-icon.jpg" alt="" width="52" height="52" loading="eager"><span>旅行清单</span></a>
+                <a class="room-object" href="guide-ledger/" data-app="ledger" data-status="无需注册" data-description="按行程记录收支、整理报账。带好团，也把账记清楚。"><img src="assets/guide-ledger.png" alt="" width="52" height="52" loading="eager"><span>导游账本</span></a>
+                <a class="room-object" href="aquatrue/" data-app="aquatrue" data-status="即将推出" data-description="还原水下视频的偏绿、偏蓝，让真实的色彩重新浮现。"><img src="assets/aquatrue-icon.png" alt="" width="52" height="52" loading="eager"><span>潜彩</span></a>
+                <a class="room-object" href="imagesize/" data-app="imagesize" data-status="准备上架" data-description="拍下平面物体，把尺寸留在照片上。适用于 LiDAR iPhone。"><img src="assets/imagesize-icon.png" alt="" width="52" height="52" loading="eager"><span>拍尺</span></a>
+                <a class="room-object" href="yixu/" data-app="yixu" data-status="内部测试" data-description="整理自己的衣橱，用数字人预览更多穿搭。"><img src="assets/yixu-icon.png" alt="" width="52" height="52" loading="eager"><span>衣序</span></a>
+                <a class="room-object" href="photosort/" data-app="photosort" data-tray-only data-status="内部测试" data-description="选好照片，确认后交给 AI 分析。整理截图、读懂小票，让照片里的信息一目了然。"><i class="app-monogram" aria-hidden="true">照</i><span>照理</span></a>
+                <a class="room-object" href="little-lines/" data-app="little-lines" data-tray-only data-status="即将上线" data-description="从内置素材开始捏姿势、配文字，把自己的小人做成 PNG 贴纸与 GIF 表情包。"><img src="little-lines/icon.png" alt="" width="52" height="52" loading="eager"><span>一笔小人</span></a>
+            </nav>
         </section>
-
-        <section id="apps" class="work-section wrap" aria-labelledby="work-title">
-            <div class="section-heading">
-                <h2 id="work-title">一些作品</h2>
-                <span class="eyebrow" lang="en">SELECTED APPS</span>
-            </div>
-
-            <article class="project" aria-labelledby="photosort-title"><div class="project-copy"><p class="eyebrow">内部测试 · 照片助理</p><h3 id="photosort-title">照理 · PhotoSort</h3><p>选好照片，确认后交给 AI 分析。整理截图、读懂小票，让照片里的信息一目了然。</p><a class="text-link" href="/photosort/">了解照理 ↗</a><div class="project-docs"><a href="/photosort/privacy/">隐私政策</a> · <a href="/photosort/terms/">用户协议</a> · <a href="/photosort/support/">支持</a></div></div></article>
-            <article class="project" aria-labelledby="little-lines-title"><div class="project-copy"><p class="eyebrow">即将上线 · 简笔画与表情包</p><img class="project-icon" src="/little-lines/icon.png" alt="" width="48" height="48"><h3 id="little-lines-title">一笔小人 · Little Lines</h3><p>小小线条，画出你的心情。从内置素材开始捏姿势、配文字，把自己的小人做成 PNG 贴纸与 GIF 表情包。</p><a class="text-link" href="/little-lines/">了解一笔小人 ↗</a><div class="project-docs"><a href="/little-lines/privacy/">隐私政策</a> · <a href="/little-lines/terms/">用户协议</a> · <a href="/little-lines/support/">支持</a></div></div></article>
-            <article class="project" aria-labelledby="divejournal-title"><div class="project-copy"><p class="eyebrow">测试中 · 潜水记录</p><h3 id="divejournal-title">潜水日记</h3><p>留住每一次蓝色相遇。文字、照片和录音保存潜水回忆，Plus 用 AI 协助整理待确认的日记。</p><a class="text-link" href="/divejournal/">了解潜水日记 ↗</a></div></article>
-            <article class="project" aria-labelledby="sudoku-title">
-                <a class="project-visual sudoku-visual" href="https://apps.apple.com/us/app/id1591771209" aria-label="在 App Store 查看数独">
-                    <span class="screen-window sudoku-window">
-                    <img class="store-screen sudoku-screen" src="assets/sudoku-screen.jpg" alt="数独应用的真实商店截图，展示棋盘与难度选择" width="392" height="696" fetchpriority="high">
-                    </span>
-                </a>
-                <div class="project-copy">
-                    <p class="project-meta"><span>01</span> 益智游戏</p>
-                    <img class="project-icon" src="assets/sudoku-icon.jpg" alt="" width="48" height="48" loading="lazy">
-                    <h3 id="sudoku-title">数独</h3>
-                    <p class="project-tagline">专心解一道题。</p>
-                    <p class="project-description">从容易到进阶，在九宫格里慢慢找到答案。通勤途中，或是想让自己安静一会儿的时候，开一局就好。</p>
-                    <a class="text-link" href="https://apps.apple.com/us/app/id1591771209">前往 App Store <span aria-hidden="true">↗</span></a>
-                </div>
-            </article>
-
-            <article class="project project-reverse" aria-labelledby="trip-title">
-                <a class="project-visual trip-visual" href="https://apps.apple.com/us/app/id6465693593" aria-label="在 App Store 查看旅行清单">
-                    <span class="screen-window trip-window">
-                    <img class="store-screen trip-screen" src="assets/trip-note-screen.jpg" alt="旅行清单应用的真实商店截图，展示旅行列表" width="222" height="480" loading="lazy">
-                    </span>
-                </a>
-                <div class="project-copy">
-                    <p class="project-meta"><span>02</span> 旅行工具</p>
-                    <img class="project-icon" src="assets/trip-note-icon.jpg" alt="" width="48" height="48" loading="lazy">
-                    <h3 id="trip-title">旅行清单</h3>
-                    <p class="project-tagline">出发前有准备，回来后有回忆。</p>
-                    <p class="project-description">整理行前清单，记下路上的见闻，也把旅途中的花销收好。从计划出发，到写下最后一篇日记。</p>
-                    <a class="text-link" href="https://apps.apple.com/us/app/id6465693593">前往 App Store <span aria-hidden="true">↗</span></a>
-                </div>
-            </article>
-
-            <article class="project" aria-labelledby="ledger-title">
-                <a class="project-visual ledger-visual" href="guide-ledger/" aria-label="查看导游账本介绍">
-                    <div class="ledger-cover" aria-hidden="true">
-                        <span class="ledger-cover-label">GUIDE LEDGER</span>
-                        <img src="assets/guide-ledger.png" alt="" width="112" height="112" loading="lazy">
-                        <span class="ledger-cover-title">导游账本</span>
-                        <span class="ledger-cover-bottom">行程 · 收支 · 报账</span>
-                    </div>
-                </a>
-                <div class="project-copy">
-                    <p class="project-meta"><span>03</span> 带团记账</p>
-                    <img class="project-icon" src="assets/guide-ledger.png" alt="" width="48" height="48" loading="lazy">
-                    <h3 id="ledger-title">导游账本</h3>
-                    <p class="project-tagline">带好团，也把账记清楚。</p>
-                    <p class="project-description">按行程记录现金与签单收支，查看收入统计，导出报账 PDF。数据留在设备上，无需注册账号。</p>
-                    <a class="text-link" href="guide-ledger/">了解这个应用 <span aria-hidden="true">↗</span></a>
-                    <div class="project-docs"><a href="guide-ledger/privacy/">隐私政策</a><a href="guide-ledger/terms/">使用条款</a></div>
-                </div>
-            </article>
-        </section>
-
-        <section class="work-section wrap" aria-labelledby="aquatrue-title">
-            <div class="section-heading"><h2 id="aquatrue-title">潜彩 · AquaTrue</h2><span class="eyebrow">即将推出 · 水下视频</span></div>
-            <p class="project-tagline">让水下色彩重新浮现。</p>
-            <p class="project-description">简单还原水下视频的偏绿、偏蓝，选择效果、调节强度、划线对比。支持中英文，免费预览，一次购买解锁导出。</p>
-            <a class="text-link" href="aquatrue/">了解这个应用 ↗</a>
-            <div class="project-docs"><a href="aquatrue/privacy/">隐私政策</a><a href="aquatrue/terms/">使用条款</a><a href="aquatrue/support/">使用帮助</a><a href="aquatrue/en/">English</a></div>
-        </section>
-
-        <section class="work-section wrap" aria-labelledby="imagesize-title">
-            <div class="section-heading"><h2 id="imagesize-title">拍尺 SnapDim · 拍照测量与尺寸标注</h2><span class="eyebrow">准备上架 · iPhone</span></div>
-            <p>拍摄平面物体，把尺寸标注留在照片上。支持 LiDAR 的 iPhone，照片在本机处理。</p>
-            <a class="text-link" href="imagesize/">了解这个应用 ↗</a>
-            <div class="project-docs"><a href="imagesize/privacy/">隐私政策</a><a href="imagesize/terms/">使用条款</a><a href="imagesize/support/">使用帮助</a><a href="imagesize/en/">English</a></div>
-        </section>
-
-        <section class="work-section wrap" aria-labelledby="yixu-title">
-            <div class="section-heading"><h2 id="yixu-title">衣序 · Yixu</h2><span class="eyebrow">内部测试 · iPhone</span></div>
-            <p>整理自己的衣橱，用数字人预览更多穿搭。AI 功能需订阅，本地衣橱可继续查看。</p>
-            <a class="text-link" href="yixu/">了解这个应用 ↗</a>
-            <div class="project-docs"><a href="yixu/privacy/">隐私政策</a><a href="yixu/terms/">订阅与使用条款</a><a href="yixu/support/">使用帮助</a><a href="yixu/en/">English</a></div>
-        </section>
-
-        <section id="about" class="about-section wrap" aria-labelledby="about-title">
-            <div class="about-label"><span class="eyebrow" lang="en">AWAY FROM THE SCREEN</span><h2 id="about-title">代码之外。</h2></div>
-            <div class="about-copy"><p>你好，我是 Yeshu。<br>喜欢写代码，也喜欢户外运动。</p><p>这里放着我做的几个小应用。关于它们的使用体验、遇到的问题，或一个有意思的想法，都欢迎写信聊聊。</p></div>
-        </section>
-
-        <section id="contact" class="contact-section wrap" aria-labelledby="contact-title">
-            <h2 id="contact-title">保持联系</h2>
-            <a class="contact-link" href="mailto:guan.yeshu@gmail.com">guan.yeshu@gmail.com <span aria-hidden="true">↗</span></a>
-        </section>
+        <div class="room-tools" id="room-controls" hidden><span class="room-hint">WASD / 方向键移动 · 拖动看四周<span>沿着小路走走，也可以走进小屋。</span></span><div class="room-buttons"><button id="toggle-view" type="button" aria-pressed="false">走进小屋</button><button id="toggle-objects" type="button" aria-expanded="false" aria-controls="objects">架上的小东西</button><button id="reset-view" type="button">跟随人物</button></div></div>
     </main>
-
-    <footer class="site-footer wrap">
-        <p>© <span id="year">2026</span> Yeshu</p>
-        <div class="footer-links"><a href="agreement-and-privacy.html">隐私与协议</a><a href="agreement.html">用户协议</a><a href="#">回到顶部 ↑</a></div>
-    </footer>
+    <footer class="site-footer"><p>一些小东西，慢慢完善。</p><span>© 2026 Yeshu</span></footer>
+</div>
+<dialog class="paper-panel" id="app-detail" aria-labelledby="detail-title">
+    <div class="panel-inner">
+        <a class="panel-close" href="#" data-close-panel aria-label="关闭应用介绍"><img class="ui-icon" src="assets/vendor/bootstrap-icons/x.svg" alt="" width="24" height="24"></a>
+        <img class="app-detail-icon" id="detail-icon" src="assets/divejournal-icon.png" alt="" width="64" height="64">
+        <p class="panel-kicker" id="detail-status">测试中</p><h2 id="detail-title">潜水日记</h2>
+        <p class="panel-description" id="detail-description">用文字、照片和录音留住潜水回忆，AI 协助整理。</p>
+        <a class="preview-link" id="detail-link" href="divejournal/"><span>去看看</span><img class="ui-icon" src="assets/vendor/bootstrap-icons/arrow-up-right.svg" alt="" width="16" height="16"></a>
+    </div>
+</dialog>
+    <dialog class="paper-panel about-panel" id="about" aria-labelledby="about-title">
+        <div class="panel-inner">
+            <a class="panel-close" href="#" data-close-panel aria-label="关闭关于"><img class="ui-icon" src="assets/vendor/bootstrap-icons/x.svg" alt="" width="24" height="24"></a>
+            <p class="panel-kicker">小房间之外</p><h2 id="about-title">你好，我是 Yeshu。</h2>
+            <p>喜欢写代码，玩单板，也喜欢去屏幕外看看世界。</p>
+            <p>海岛上的小屋里，收着慢慢做出来的小东西。没有赶着完成的计划，就按自己的节奏，一点点折腾。</p>
+            <div class="panel-legal"><a href="agreement-and-privacy.html">隐私与协议</a><a href="agreement.html">用户协议</a><span>© 2026 Yeshu</span></div>
+        </div>
+    </dialog>
 </body>
 </html>
