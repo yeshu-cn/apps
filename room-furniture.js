@@ -40,7 +40,7 @@ export function furnishStudio({ group, mesh, box, rounded, cylinder, beam, mat, 
 
     const chair = group('desk-chair'); chair.position.set(-1.56, 0, .45); chair.rotation.y = -.12;
     rounded(chair, 'chair-seat', '#72866f', 0, .62, 0, .72, .12, .66, .08);
-    rounded(chair, 'chair-back', '#80917a', 0, .99, .29, .70, .64, .095, .085); 
+    rounded(chair, 'chair-back', '#80917a', 0, .99, .29, .70, .64, .095, .085);
     for (const x of [-.25, .25]) beam(chair, 'back-support', '#515e50', v(x, .58, .24), v(x, .87, .31), .026);
     cylinder(chair, 'chair-stem', graphite, 0, .33, 0, .045, .06, .51);
     for (let i = 0; i < 5; i++) {
