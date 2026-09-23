@@ -68,6 +68,8 @@ The user requested substantially more land around the cottage and direct control
 
 ## Alpine explorer and model picker — 2026-09-23
 
-- `models/alpine-explorer-web.glb`: derivative of the user-supplied `39a013596f1936b25766a18b2aaed361.glb`. Blender cleanup, contact-seam separation, weighted 22-bone body FK rig and locally authored Idle / Walk / Wave animations. Satin helmet response, zipper pull and strap buckles were refined in Blender. 72,266 triangles; three 1024 px JPEG textures; 5,009,276 bytes. glTF Transform deduplicates, prunes and resamples; no external decoder or runtime service is required. Validator: zero errors and warnings.
+- `models/alpine-explorer-web.glb`: derivative of the user-supplied `39a013596f1936b25766a18b2aaed361.glb`. Blender cleanup, contact-seam separation, weighted 22-bone body FK rig and locally authored Idle / Walk / Wave animations. Satin helmet response, zipper pull and strap buckles were refined in Blender. 72,266 triangles; three 1024 px JPEG textures; 5,010,132 bytes. glTF Transform deduplicates, prunes and resamples; no external decoder or runtime service is required. Validator: zero errors and warnings.
 - `models/alpine-preview.webp` and `models/snowboarder-preview.webp`: resized Blender renders of the actual supplied characters. No marketplace model or new third-party model license is assumed.
 - Editable source and generation scripts: `/Users/yeshu/Downloads/alpine_explorer_rigged/`. The original supplied file is unchanged. The rig has no separate facial or finger controls.
+
+- Walk refinement (`scripts/refine_walk.py` in the editable source directory): each thigh rotates inward 6 degrees and each foot reduces toe-out 9 degrees. Foot orientation and pelvis height are compensated for sole contact. Ankle spacing is 0.211–0.219 source units versus 0.364 previously; Idle and Wave keep the original standing stance.

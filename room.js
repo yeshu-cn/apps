@@ -72,7 +72,7 @@ function openFromHash() {
 }
 addEventListener('hashchange', openFromHash); openFromHash();
 
-import('./room-scene.js?v=characters-20260923').then(({ startRoomScene }) => startRoomScene({ stage, canvas: document.getElementById('room-canvas'), links, onSelect: openApp })).catch(error => {
+import('./room-scene.js?v=gait-20260923').then(({ startRoomScene }) => startRoomScene({ stage, canvas: document.getElementById('room-canvas'), links, onSelect: openApp })).catch(error => {
     stage.dataset.renderer = 'fallback';
     document.getElementById('room-controls').hidden = true;
     console.warn('The 3D room is unavailable; all app links remain usable.', error);

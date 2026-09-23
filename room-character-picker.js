@@ -1,4 +1,4 @@
-import { RESIDENT_MODELS } from './room-resident.js?v=characters-20260923';
+import { RESIDENT_MODELS } from './room-resident.js?v=gait-20260923';
 
 export function createCharacterPicker({ stage, getCurrent, select }) {
     const style = document.createElement('link');

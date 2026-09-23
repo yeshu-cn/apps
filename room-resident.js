@@ -5,7 +5,7 @@ import { createFallbackResident } from './room-resident-fallback.js';
 
 export const RESIDENT_MODELS = [
     { id: 'snowboarder', label: '轻装滑雪者', description: '熟悉的山系伙伴', file: 'snowboarder-web.glb?v=20260922', preview: 'snowboarder-preview.webp' },
-    { id: 'alpine', label: '雪山探索者', description: '冰蓝雪服 · 橙色雪镜 · 登山背包', file: 'alpine-explorer-web.glb?v=20260923', preview: 'alpine-preview.webp' },
+    { id: 'alpine', label: '雪山探索者', description: '冰蓝雪服 · 橙色雪镜 · 登山背包', file: 'alpine-explorer-web.glb?v=gait-20260923', preview: 'alpine-preview.webp' },
 ];
 export function savedResident() {
     try { const id = localStorage.getItem('yeshu-resident'); if (RESIDENT_MODELS.some(model => model.id === id)) return id; } catch {}

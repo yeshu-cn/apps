@@ -39,4 +39,6 @@ Asset provenance and licenses are recorded in `assets/SOURCES.md` and `assets/ve
 
 The “选择人物” control opens a native dialog with previews for the original snowboarder and the new alpine explorer. Selection keeps the player position and heading, saves locally in this browser, and swaps only after loading succeeds. A failed request keeps the current character and permits retry. The dialog suspends movement and supports Escape and focus restoration.
 
-`room-character-picker.js` and `.css` implement the picker. `room-resident.js` defines the model catalogue and loads the selected rig. The alpine explorer is 5,009,276 bytes with 22 bones, 72,266 triangles and Idle / Walk / Wave clips. Its editable master and scripts are in `/Users/yeshu/Downloads/alpine_explorer_rigged/`; the website ships only the optimized GLB and previews. This is a body FK rig without separate facial or finger controls.
+`room-character-picker.js` and `.css` implement the picker. `room-resident.js` defines the model catalogue and loads the selected rig. The alpine explorer is 5,010,132 bytes with 22 bones, 72,266 triangles and Idle / Walk / Wave clips. Its editable master and scripts are in `/Users/yeshu/Downloads/alpine_explorer_rigged/`; the website ships only the optimized GLB and previews. This is a body FK rig without separate facial or finger controls.
+
+The alpine Walk clip narrows the ankle spacing by about 40% and reduces toe-out by 9 degrees, with sole orientation and pelvis height compensated for ground contact. Idle and Wave keep their original standing stance.

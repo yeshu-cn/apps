@@ -2,10 +2,10 @@ import * as T from 'three';
 import { OrbitControls } from './assets/vendor/three/addons/controls/OrbitControls.js';
 import { createRoom } from './room-model.js';
 import { createIsland } from './room-island.js';
-import { createResident } from './room-resident.js?v=characters-20260923';
+import { createResident } from './room-resident.js?v=gait-20260923';
 import { createPlayer } from './room-player.js';
 import { createWalkInput } from './room-input.js';
-import { createCharacterPicker } from './room-character-picker.js?v=20260923';
+import { createCharacterPicker } from './room-character-picker.js?v=gait-20260923';
 
 export async function startRoomScene({ stage, canvas, links, onSelect }) {
     const renderer = new T.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'low-power' });
