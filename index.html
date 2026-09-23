@@ -15,7 +15,7 @@
     </script>
     <link rel="stylesheet" href="room.css?v=startup-20260923">
     <script type="importmap">{"imports":{"three":"./assets/vendor/three/three.module.min.js"}}</script>
-    <script type="module" src="room.js?v=gait-20260923"></script>
+    <script type="module" src="room.js?v=football-20260923"></script>
 </head>
 <body>
 <div class="page">
@@ -26,26 +26,45 @@
     </header>
     <main class="main">
         <div class="intro"><p class="eyebrow">海边的小工作室</p><h1>在小岛上，慢慢做。</h1><p>写代码，玩单板。<span>也慢慢做些小东西。</span></p></div>
-        <section class="room-stage" id="room-stage" aria-label="海岛小屋：电脑桌、工作台、3D 打印机、Avata 2 穿越机和应用作品" data-view="island">
+        <section class="room-stage" id="room-stage" aria-label="海岛小屋与旁边的足球岛：小屋内有电脑桌、工作台、3D 打印机、Avata 2 穿越机和作品书架，邻岛上有草坪足球场" data-view="island">
             <canvas class="room-canvas" id="room-canvas" aria-hidden="true"></canvas>
             <div class="scene-loading-message" role="status"><span class="scene-loading-dot" aria-hidden="true"></span><p>正在前往小岛…</p></div>
             <p class="scene-failure-message" role="status">暂时无法打开小岛，仍可在这里浏览作品。</p>
             <p class="scene-slow-message" role="status">小岛加载较慢，可以先浏览作品。</p>
             <button id="resident-marker" class="resident-marker" type="button" aria-label="和人物打个招呼" title="打个招呼" hidden>你</button>
             <div id="walk-controls" class="walk-controls" hidden><button id="walk-joystick" type="button" aria-label="拖动摇杆移动人物，松手停止"><span class="joystick-knob"></span></button><span class="joystick-caption">移动</span></div>
-            <nav class="objects" id="objects" aria-label="房间里的小东西">
-                <a class="room-object" href="divejournal/" data-app="divejournal" data-status="测试中" data-description="用文字、照片和录音留住潜水回忆，AI 协助整理。"><img src="assets/divejournal-icon.png" alt="" width="52" height="52" loading="eager"><span>潜水日记</span></a>
-                <a class="room-object" href="https://apps.apple.com/us/app/id1591771209" data-app="sudoku" data-status="App Store" data-description="从容易到进阶，在九宫格里专心解一道题。"><img src="assets/sudoku-icon.jpg" alt="" width="52" height="52" loading="eager"><span>数独</span></a>
-                <a class="room-object" href="https://apps.apple.com/us/app/id6465693593" data-app="trip" data-status="App Store" data-description="收好行前清单、路上的见闻，和旅途中的花销。"><img src="assets/trip-note-icon.jpg" alt="" width="52" height="52" loading="eager"><span>旅行清单</span></a>
-                <a class="room-object" href="guide-ledger/" data-app="ledger" data-status="无需注册" data-description="按行程记录收支、整理报账。带好团，也把账记清楚。"><img src="assets/guide-ledger.png" alt="" width="52" height="52" loading="eager"><span>导游账本</span></a>
-                <a class="room-object" href="aquatrue/" data-app="aquatrue" data-status="即将推出" data-description="还原水下视频的偏绿、偏蓝，让真实的色彩重新浮现。"><img src="assets/aquatrue-icon.png" alt="" width="52" height="52" loading="eager"><span>潜彩</span></a>
-                <a class="room-object" href="imagesize/" data-app="imagesize" data-status="准备上架" data-description="拍下平面物体，把尺寸留在照片上。适用于 LiDAR iPhone。"><img src="assets/imagesize-icon.png" alt="" width="52" height="52" loading="eager"><span>拍尺</span></a>
-                <a class="room-object" href="yixu/" data-app="yixu" data-status="内部测试" data-description="整理自己的衣橱，用数字人预览更多穿搭。"><img src="assets/yixu-icon.png" alt="" width="52" height="52" loading="eager"><span>衣序</span></a>
-                <a class="room-object" href="photosort/" data-app="photosort" data-tray-only data-status="内部测试" data-description="选好照片，确认后交给 AI 分析。整理截图、读懂小票，让照片里的信息一目了然。"><i class="app-monogram" aria-hidden="true">照</i><span>照理</span></a>
-                <a class="room-object" href="little-lines/" data-app="little-lines" data-tray-only data-status="即将上线" data-description="改动作、换表情，配上自己的话，做出有你个性的小人、贴纸和动图。"><img src="little-lines/icon.png" alt="" width="52" height="52" loading="eager"><span>一笔小人</span></a>
+            <nav class="objects" id="objects" aria-label="作品书架">
+                <div class="objects-heading"><div><p>慢慢做出来的</p><h2>作品书架</h2></div><button id="close-objects" type="button" aria-label="收起作品书架"><img src="assets/vendor/bootstrap-icons/x.svg" alt="" width="20" height="20"></button></div>
+                <a class="room-object" href="https://apps.apple.com/us/app/id6796671573" data-app="snowcut" data-status="App Store" data-description="从滑雪视频中自动挑出起跳与动作片段，整理成训练集锦。"><img src="assets/snowcut-icon.jpg" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">起落</span><small>已上线</small></span></a>
+                <a class="room-object" href="https://apps.apple.com/cn/app/id6772764457" data-app="keepshot" data-status="App Store" data-description="点评单张照片，或从相似照片中挑出更值得留下的一张。"><img src="assets/keepshot-icon.png" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">KeepShot · 流影</span><small>已上线</small></span></a>
+                <a class="room-object" href="https://apps.apple.com/us/app/id6809382549" data-app="aquatrue" data-status="App Store" data-description="还原水下视频的偏绿、偏蓝，让真实色彩重新浮现。"><img src="assets/aquatrue-icon.png" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">潜彩</span><small>已上线</small></span></a>
+                <a class="room-object" href="https://apps.apple.com/cn/app/id6810995368" data-app="imagesize" data-status="App Store" data-description="用 LiDAR iPhone 拍照测量，把尺寸直接留在照片上。"><img src="assets/imagesize-icon.png" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">拍尺</span><small>已上线</small></span></a>
+                <a class="room-object" href="https://apps.apple.com/us/app/id6812704917" data-app="yixu" data-status="App Store" data-description="整理衣橱，用数字人预览日常穿搭。"><img src="assets/yixu-icon.png" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">衣序</span><small>已上线</small></span></a>
+                <a class="room-object" href="https://apps.apple.com/cn/app/id6760816092" data-app="ledger" data-status="App Store" data-description="按行程记录收支，整理带团账目与报销。"><img src="assets/guide-ledger.png" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">导游账本</span><small>已上线</small></span></a>
+                <a class="room-object" href="https://apps.apple.com/us/app/id6465693593" data-app="trip" data-status="App Store" data-description="收好行前清单、路上的见闻和旅途中的花销。"><img src="assets/trip-note-icon.jpg" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">山海 · 旅行笔记</span><small>已上线</small></span></a>
+                <a class="room-object" href="https://apps.apple.com/cn/app/id6749299523" data-app="dao" data-status="App Store" data-description="从道家视角梳理疑问与选择，留一点时间给思考。"><img src="assets/dao-icon.jpg" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">问道</span><small>已上线</small></span></a>
+                <a class="room-object" href="https://apps.apple.com/us/app/id6738989430" data-app="dailyframe" data-status="App Store" data-description="每天留下一张照片，用影像串起生活与时间。"><img src="assets/dailyframe-icon.jpg" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">DailyFrame</span><small>已上线</small></span></a>
+                <a class="room-object" href="https://apps.apple.com/us/app/id6739861072" data-app="outtool" data-status="App Store" data-description="查看方向与海拔，给徒步和户外探索多一点参考。"><img src="assets/outtool-icon.jpg" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">OutTool · 户外工具</span><small>已上线</small></span></a>
+                <a class="room-object" href="https://apps.apple.com/us/app/id1591771209" data-app="sudoku" data-status="App Store" data-description="从容易到进阶，在九宫格里专心解一道题。"><img src="assets/sudoku-icon.jpg" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">数独</span><small>已上线</small></span></a>
+                <a class="room-object" href="https://apps.apple.com/cn/app/id1581064133" data-app="materialcolor" data-status="App Store" data-description="随手查阅 Material Design 色板，找到合适的颜色。"><img src="assets/materialcolor-icon.jpg" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">Material Color</span><small>已上线</small></span></a>
+                <a class="room-object" href="https://apps.apple.com/cn/app/id1535019603" data-app="poetry" data-status="App Store" data-description="读诗、查诗、收藏诗句，把喜欢的文字留在身边。"><img src="assets/poetry-icon.jpg" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">古诗词笔记本</span><small>已上线</small></span></a>
+                <a class="room-object" href="divejournal/" data-app="divejournal" data-status="测试中" data-description="用文字、照片和录音留住潜水回忆，AI 协助整理。"><img src="assets/divejournal-icon.png" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">潜水日记</span><small>测试中</small></span></a>
             </nav>
+            <span id="app-hover-label" class="app-hover-label" hidden></span>
+            <button id="bookcase-marker" class="bookcase-marker" type="button" aria-label="打开作品书架" aria-controls="objects" aria-expanded="false" hidden>作品书架</button>
         </section>
-        <div class="room-tools" id="room-controls" hidden><span class="room-hint">WASD / 方向键移动 · 拖动看四周<span>沿着小路走走，也可以走进小屋。</span></span><div class="room-buttons"><button id="toggle-view" type="button" aria-pressed="false">走进小屋</button><button id="toggle-objects" type="button" aria-expanded="false" aria-controls="objects">架上的小东西</button><button id="reset-view" type="button">跟随人物</button></div></div>
+        <details class="island-weather" id="island-weather" hidden>
+            <summary aria-label="调整小岛天气和时间"><span class="weather-symbol" aria-hidden="true">☀</span><span id="weather-current">晴天</span><span class="weather-divider"></span><time id="island-clock">12:00</time><span class="weather-chevron" aria-hidden="true">⌄</span></summary>
+            <div class="weather-settings">
+                <p class="weather-caption">小岛天气 <span>模拟</span></p>
+                <div class="weather-options" role="group" aria-label="模拟天气"><button type="button" data-weather="sunny" aria-pressed="true">晴天</button><button type="button" data-weather="cloudy" aria-pressed="false">多云</button><button type="button" data-weather="rainy" aria-pressed="false">小雨</button></div>
+                <label class="time-label" for="island-time">一天的光 <output id="island-time-label" for="island-time">12:00</output></label>
+                <input id="island-time" type="range" min="0" max="1439" step="1" value="720" aria-valuetext="12:00">
+                <div class="time-ticks" aria-hidden="true"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
+                <div class="time-actions"><span id="island-time-mode">跟随本地时间</span><button type="button" id="island-time-reset" hidden>回到此刻</button></div>
+            </div>
+        </details>
+        <div class="room-tools" id="room-controls" hidden><span class="room-hint">WASD / 方向键移动 · 拖动看四周<span>沿着小路走走，也可以走进小屋。</span></span><div class="room-buttons"><button id="toggle-view" type="button" aria-pressed="false">走进小屋</button><button id="reset-view" type="button">跟随人物</button></div></div>
     </main>
     <footer class="site-footer"><p>一些小东西，慢慢完善。</p><span>© 2026 Yeshu</span></footer>
 </div>

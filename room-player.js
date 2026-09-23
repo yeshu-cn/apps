@@ -1,5 +1,7 @@
 import RAPIER from './assets/vendor/rapier/rapier.mjs';
-import { coastPoint, islandTerrain, DOCK, PALMS, ROCKS } from './island-layout.js';
+import { coastPoint, islandTerrain, DOCK, PALMS, ROCKS } from './island-layout.js?v=room-wide-20260923';
+
+import { CABIN, CABIN_DOOR, BED, BOOKCASE, ENTRY_POTS, INDOOR_PROPS, DESK, WORKBENCH } from './room-layout.js?v=room-clear-20260923';
 
 let initialization;
 export async function createPlayer() {
@@ -16,24 +18,25 @@ export async function createPlayer() {
         collider.userData = { name };
     }
     // One closed shell with a real 1.35-unit doorway, independent of roof visibility.
-    box('room-floor', 0, -.1065, .70, 8.35, .307, 6.1);
-    box('back-wall', 0, 2.13, -2.26, 8.35, 4.26, .18);
-    for (const x of [-4.10, 4.10]) box('side-wall', x, 2.13, .7, .18, 4.26, 6.1);
-    box('front-left-wall', -2.075, 2.13, 3.74, 4.20, 4.26, .18);
-    box('front-right-wall', 2.775, 2.13, 3.74, 2.80, 4.26, .18);
+    box('room-floor', 0, -.1065, CABIN.centerZ, CABIN.width, .307, CABIN.depth);
+    box('back-wall', 0, CABIN.height / 2, CABIN.backZ, CABIN.width, CABIN.height, CABIN.wallThickness);
+    for (const x of [-CABIN.sideX, CABIN.sideX]) box('side-wall', x, CABIN.height / 2, CABIN.centerZ, CABIN.wallThickness, CABIN.height, CABIN.depth);
+    for (const [name, left, right] of [['front-left-wall', -CABIN.width / 2, CABIN_DOOR.left], ['front-right-wall', CABIN_DOOR.right, CABIN.width / 2]]) {
+        box(name, (left + right) / 2, CABIN.height / 2, CABIN.frontZ, right - left, CABIN.height, CABIN.wallThickness);
+    }
     box('door-lintel', .7, 3.505, 3.74, 1.35, 1.51, .18);
     box('open-door-leaf', 1.375, 1.34, 3.025, .075, 2.62, 1.27);
     for (let i = 0; i < 3; i++) box('entry-step', .7, -.08 - i * .10, 3.85 + i * .23, 1.6, .13, .34);
-    box('rug', -.1, .064, 1.90, 4.25, .036, 2.9);
-    box('desk', -1.63, .59, -.95, 3.36, 1.18, 1.19);
-    box('workbench', 2.16, .55, -.36, 2.88, 1.10, 1.62);
-    cylinder('desk-chair', -1.56, .45, .43, 1.31);
-    box('reading-chair', -3.04, .68, 2.31, 1.30, 1.4, 1.1, .53);
-    cylinder('low-stool', -2.24, 2.70, .33, .58);
-    cylinder('floor-plant', -3.42, .8, .32, 1.25);
-    cylinder('floor-lamp', -3.04, 1.26, .27, 2.6);
-    box('book-stack', 3.33, .22, 1.30, .66, .44, .49);
-    for (const [x, z] of [[-4.85, 3.8], [4.8, 3.5]]) cylinder('clay-pot', x, z, .29, .6);
+    box('desk', DESK.x, DESK.height / 2, DESK.z, DESK.width, DESK.height, DESK.depth);
+    box('workbench', WORKBENCH.x, WORKBENCH.height / 2, WORKBENCH.z, WORKBENCH.width, WORKBENCH.height, WORKBENCH.depth, WORKBENCH.yaw);
+    cylinder('desk-chair', INDOOR_PROPS.chair.x, INDOOR_PROPS.chair.z, .43, 1.31);
+    cylinder('floor-plant', INDOOR_PROPS.plant.x, INDOOR_PROPS.plant.z, .32, 1.25);
+    cylinder('floor-lamp', INDOOR_PROPS.lamp.x, INDOOR_PROPS.lamp.z, .27, 2.6);
+    box('back-bookcase', BOOKCASE.x, BOOKCASE.bottom + BOOKCASE.height / 2, BOOKCASE.z, BOOKCASE.width, BOOKCASE.height, BOOKCASE.depth, BOOKCASE.yaw);
+    box('single-bed', BED.x, BED.height / 2, BED.z, BED.width, BED.height, BED.length, BED.yaw);
+    const headOffset = -BED.length / 2 + .035;
+    box('bed-headboard', BED.x + Math.sin(BED.yaw) * headOffset, BED.headHeight / 2, BED.z + Math.cos(BED.yaw) * headOffset, BED.width, BED.headHeight, .10, BED.yaw);
+    for (const [x, z] of ENTRY_POTS) cylinder('clay-pot', x, z, .29, .6);
     box('garden-bench', 17.5, .32, 8.8, 2.0, 1.2, .8, -.42);
     cylinder('garden-table', 16.745, 9.755, .46, .52);
     box('hammock', -4.25, .35, 9.15, 3.6, 1.25, 1.0, -.24);
@@ -68,7 +71,7 @@ export async function createPlayer() {
     const state = { x: 3.5, y: -.25, z: 5.6, dx: 0, dz: 0, moving: false, indoors: false };
     function sync() {
         const p = body.translation(); state.x = p.x; state.y = p.y - halfHeight; state.z = p.z;
-        state.indoors = state.x > -4 && state.x < 4 && state.z > -2.14 && state.z < 3.57;
+        state.indoors = Math.abs(state.x) < CABIN.sideX - CABIN.wallThickness / 2 && state.z > CABIN.backZ + .12 && state.z < CABIN.frontZ - .17;
     }
     return {
         state,

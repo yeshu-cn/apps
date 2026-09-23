@@ -66,10 +66,40 @@ The user requested substantially more land around the cottage and direct control
 - `vendor/three/addons/loaders/GLTFLoader.js` , `vendor/three/addons/utils/SkeletonUtils.js`, and `vendor/three/addons/environments/RoomEnvironment.js`: unmodified files from the same official Three.js 0.185.1 npm package as the existing runtime, verified against the registry SHA-512 integrity value. Covered by `vendor/three/LICENSE` (MIT).
 - Native editable master and generation script remain in `/Users/yeshu/Downloads/character_rigged/`; the website includes only the optimized model. Original model files were not changed.
 
+## User snowboard prop — 2026-09-23
+
+- `models/snowboard-web.glb`: derived locally from the user's `/Users/yeshu/Downloads/3d/79b8053a75f341b54ce945720773fed3.glb`. The original remains unchanged. User-provided asset; no marketplace download, external upload or newly assumed license.
+- glTF Transform 4.5.0 applies deduplication, welding, meshoptimizer simplification (`ratio: 0.025`, `error: 0.001`), pruning, and 1024 × 1024 texture resizing. Base color uses JPEG quality 90; normal and metallic/roughness maps remain PNG. Geometry stays uncompressed for the existing GLTFLoader. The source has 1,500,000 triangles and three 4096 px PNGs; the derivative has 37,500 triangles, one mesh/material, and measures 3,848,040 bytes.
+- The node is normalized to an upright, 1.88-unit board, with front-facing bindings and a bottom pivot. The original orange/black graphics, two bindings and PBR material are retained. The runtime adds a small lean and a local RoomEnvironment reflection map; no new renderer dependency is introduced.
+- Khronos glTF Validator reports zero errors and one tangent-space warning: the supplied mesh has no tangent attribute, so the existing Three.js material shader derives tangent space at runtime. Source/derivative visual comparison and desktop/mobile runtime renders were checked locally.
+
+## KeepShot and island atmosphere — 2026-09-23
+
+- `keepshot-icon.png`: resized to 256 × 256 from the user's current local iOS asset, `keepshot/keepshot-ios/KeepShot/Assets.xcassets/AppIcon.appiconset/AppIcon1024.png`. App name, description and destination `6772764457` verified using Apple's US iTunes lookup API on 2026-09-23.
+- `room-sea.js`: original procedural dinghy, oars, mooring line, ripples and animated coast-following foam. Reuses the existing oak texture.
+- `room-weather.js`: procedural clouds and rain, interpolated local-time lighting, and native HTML weather/time controls. Simulated conditions; no external forecast, geolocation, raster asset or runtime dependency.
+
+## Complete published catalogue and quiet bookcase — 2026-09-23
+
+- `snowcut-icon.jpg` (6796671573), `dao-icon.jpg` (6749299523), `dailyframe-icon.jpg` (6738989430), `outtool-icon.jpg` (6739861072), `materialcolor-icon.jpg` (1581064133), and `poetry-icon.jpg` (1535019603): the user's app artwork from Apple's public iTunes lookup response for developer 908660241, US storefront. Resized to 256 × 256 JPEGs for the catalogue and small book-spine marks.
+- Public catalogue verification: `https://itunes.apple.com/lookup?id=908660241&entity=software&country=us&limit=200` and the corresponding `country=cn` response. The union contains 13 public apps. Account app inventory and version states were also read through App Store Connect on 2026-09-23. No App Store metadata was changed.
+- `room-model.js`: original small bookcase/book geometry replaces the full-width app shelves. Reuses existing oak, linen, app artwork and `room-evening.webp` for the ordinary wall print. No new generated image, model marketplace asset or dependency.
+
+## Full-size left bookcase and shared cabin windows — 2026-09-23
+
+- Original procedural furniture and window geometry only. The normal-size cabinet replaces the former left sofa; 14 smaller freestanding tiles reuse existing App icon artwork, with direct selection. The carpet and low stool are removed.
+- `room-layout.js` shares actual window positions and sizes across the wall openings and frames. Two rear apertures join the existing four windows; the same physical geometry is used outdoors and in the interior cutaway.
+- No new image, third-party model, runtime dependency or remote asset was introduced.
+
 ## Alpine explorer and model picker — 2026-09-23
 
 - `models/alpine-explorer-web.glb`: derivative of the user-supplied `39a013596f1936b25766a18b2aaed361.glb`. Blender cleanup, contact-seam separation, weighted 22-bone body FK rig and locally authored Idle / Walk / Wave animations. Satin helmet response, zipper pull and strap buckles were refined in Blender. 72,266 triangles; three 1024 px JPEG textures; 5,010,132 bytes. glTF Transform deduplicates, prunes and resamples; no external decoder or runtime service is required. Validator: zero errors and warnings.
 - `models/alpine-preview.webp` and `models/snowboarder-preview.webp`: resized Blender renders of the actual supplied characters. No marketplace model or new third-party model license is assumed.
 - Editable source and generation scripts: `/Users/yeshu/Downloads/alpine_explorer_rigged/`. The original supplied file is unchanged. The rig has no separate facial or finger controls.
+- Walk stance refinement (`scripts/refine_walk.py` after `build_character.py`): rotate each thigh inward 6 degrees and reduce toe-out 9 degrees, preserve the foot orientation in world space, and rebake pelvis height for sole contact. Ankle spacing is 0.211–0.219 source units versus 0.364 previously. Idle and Wave retain their authored standing stance.
 
-- Walk refinement (`scripts/refine_walk.py` in the editable source directory): each thigh rotates inward 6 degrees and each foot reduces toe-out 9 degrees. Foot orientation and pelvis height are compensated for sole contact. Ankle spacing is 0.211–0.219 source units versus 0.364 previously; Idle and Wave keep the original standing stance.
+## Wall-aligned layout and 360-degree inspection — 2026-09-23
+
+- Removed the added rear windows. The cottage again uses the original four actual window openings, including the two flanking the entrance. Shared wall/window geometry is cut away according to camera direction.
+- Placed the full-size bookcase beside the computer desk against the rear wall and rotated the printer workbench against the right wall. The bed is rotated into the front-left corner, and the central pendant and support are removed. Existing furniture, App artwork, snowboard and character assets are retained.
+- Enabled full horizontal interior orbit plus bounded wheel/pinch zoom, and culled foreground palms while inspecting the room. No new asset or dependency.

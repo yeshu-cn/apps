@@ -1,4 +1,7 @@
 import * as T from 'three';
+import { ENTRY_POTS } from './room-layout.js?v=room-clear-20260923';
+import { createSeaDetails } from './room-sea.js';
+import { createFootballIsland } from './room-football-island.js?v=football-20260923';
 import { ISLAND, DOCK, coastPoint, islandTerrain, PALMS, ROCKS } from './island-layout.js';
 
 const v = (x, y, z) => new T.Vector3(x, y, z);
@@ -72,12 +75,7 @@ export async function createIsland() {
         shallowPos.setXYZ(i, point.x - ISLAND.x, -(point.z - ISLAND.z), 0);
     }
     shallow.geometry.computeVertexNormals(); shallow.rotation.x = -Math.PI / 2; shallow.castShadow = false;
-    const foam = material('#e1eee0', { transparent: true, opacity: .65, depthWrite: false });
-    for (let wave = 0; wave < 3; wave++) {
-        const points = [];
-        for (let i = 0; i <= 90; i++) points.push(shore(.02 + i / 90 * Math.PI * 1.07, 1.018 + wave * .027, -1.05 + wave * .001));
-        const line = mesh('soft-shore-break', new T.TubeGeometry(new T.CatmullRomCurve3(points), 100, .008 + wave * .002, 4, false), foam); line.castShadow = false;
-    }
+    const sea = createSeaDetails(root, wood);
 
     // Small steps and a weathered dock establish the relationship between home and beach.
     for (let i = 0; i < 3; i++) box('cabin-entry-step', .7, -.08 - i * .10, 3.85 + i * .23, 1.6, .13, .34);
@@ -120,6 +118,8 @@ export async function createIsland() {
         for (let i = 0; i < 3; i++) mesh('coconut', new T.IcosahedronGeometry(.12, 1), trunkMat, lean + Math.cos(i * 2.1) * .13, height - .12, Math.sin(i * 2.1) * .13, palmRoot);
     }
     PALMS.forEach(args => palm(...args));
+    const footballIsland = createFootballIsland({ sand, sandMap, wood, palm });
+    root.add(footballIsland.root);
 
     for (const [x, z, scale] of ROCKS) {
         const rock = mesh('coastal-rock', new T.DodecahedronGeometry(scale, 0), rockMats[Math.abs(Math.round(x)) % 3], x, -.30 + scale * .26, z); rock.scale.set(1.3, .73, .87); rock.rotation.set(.15, x, .07);
@@ -144,7 +144,7 @@ export async function createIsland() {
     mesh('garden-round-table', new T.CylinderGeometry(.46, .46, .07, 24), wood, -.3, .42, 1.18, garden);
     for (let i = 0; i < 3; i++) { const a = i * 2.094; beam('garden-table-leg', v(-.3 + Math.cos(a) * .26, 0, 1.18 + Math.sin(a) * .26), v(-.3 + Math.cos(a) * .21, .42, 1.18 + Math.sin(a) * .21), .035, wood, garden); }
     mesh('garden-teacup', new T.CylinderGeometry(.07, .053, .16, 16), material('#eee5cc'), -.36, .54, 1.18, garden);
-    for (const [x, z] of [[-4.85, 3.8], [4.8, 3.5]]) {
+    for (const [x, z] of ENTRY_POTS) {
         mesh('outside-clay-pot', new T.CylinderGeometry(.28, .19, .42, 12), material('#bc9574'), x, -.06, z);
         for (let i = 0; i < 7; i++) { const leaf = mesh('potted-leaf', new T.SphereGeometry(1, 8, 6), foliage[i % 3], x + Math.cos(i * 2.4) * .21, .28 + i % 3 * .14, z + Math.sin(i * 2.4) * .21); leaf.scale.set(.13, .30, .08); leaf.rotation.set(.45, i, .4); }
     }
@@ -156,9 +156,20 @@ export async function createIsland() {
     cloth.computeVertexNormals();
     mesh('hammock-canvas', cloth, material('#ecdfbd', { map: sandMap, side: T.DoubleSide }), 0, 0, 0, hammock);
     for (const side of [-1, 1]) for (const z of [-.43, 0, .43]) beam('hammock-rope', v(side * 1.46, 1.28 + (z ? .16 : 0), z), v(side * 1.72, 1.58, 0), .013, rope, hammock);
+    const palms = root.children.filter(object => object.name === 'island-palm');
     return {
         root,
+        updateCutaway(camera, indoors) {
+            // Cut foreground palms with the near walls so leaves cannot cover the room.
+            const dx = camera.position.x, dz = camera.position.z - .70;
+            for (const palm of palms) palm.visible = !indoors || palm.position.x * dx + (palm.position.z - .70) * dz <= 0;
+        },
+        update(time, reduced, weather, daylight) {
+            sea.update(time, reduced, weather, daylight);
+            waterMap.offset.set(reduced ? 0 : time * .0007, reduced ? 0 : time * .00035);
+        },
         dispose() {
+            footballIsland.dispose();
             const geometry = new Set(), materials = new Set();
             root.traverse(object => { if (object.geometry) geometry.add(object.geometry); if (object.material) materials.add(object.material); });
             geometry.forEach(item => item.dispose()); materials.forEach(item => item.dispose());

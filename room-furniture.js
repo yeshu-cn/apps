@@ -1,4 +1,5 @@
 import * as T from 'three';
+import { BED, DESK, WORKBENCH, INDOOR_PROPS } from './room-layout.js?v=room-clear-20260923';
 
 const v = (x, y, z) => new T.Vector3(x, y, z);
 
@@ -6,7 +7,22 @@ const v = (x, y, z) => new T.Vector3(x, y, z);
 export function furnishStudio({ group, mesh, box, rounded, cylinder, beam, mat, oak, paleOak, textures }) {
     const graphite = mat('#424e4d', .65, .2);
     const aluminium = mat('#a9b6b2', .45, .65);
-    const desk = group('computer-desk'); desk.position.set(-1.63, 0, -.95);
+    const bed = group('single-bed'); bed.position.set(BED.x, 0, BED.z); bed.rotation.y = BED.yaw;
+    const linen = color => new T.MeshStandardMaterial({ color, map: textures.linen, bumpMap: textures.linen, bumpScale: .012, roughness: 1 });
+    for (const x of [-BED.width / 2 + .13, BED.width / 2 - .13]) for (const z of [-BED.length / 2 + .16, BED.length / 2 - .16]) {
+        box(bed, 'bed-oak-foot', oak, x, .20, z, .11, .31, .11);
+    }
+    rounded(bed, 'bed-oak-frame', oak, 0, .36, 0, BED.width, .22, BED.length, .06);
+    rounded(bed, 'bed-headboard', paleOak, 0, .73, -BED.length / 2 + .035, BED.width, .90, .10, .07);
+    rounded(bed, 'linen-mattress', linen('#eee6d4'), 0, .555, .025, BED.width - .11, .21, BED.length - .15, .09);
+    rounded(bed, 'sage-duvet', linen('#a6b59b'), 0, .655, .34, BED.width - .06, .09, BED.length - .79, .04);
+    rounded(bed, 'folded-duvet-edge', linen('#c5ceba'), 0, .699, -.59, BED.width - .08, .055, .22, .025);
+    rounded(bed, 'linen-pillow', linen('#f3eddf'), 0, .70, -1.00, 1.10, .18, .49, .08);
+    const throwMaterial = linen('#c8ae89');
+    rounded(bed, 'sand-bed-throw', throwMaterial, 0, .72, .96, BED.width - .04, .04, .47, .018);
+    rounded(bed, 'hanging-bed-throw', throwMaterial, BED.width / 2 - .018, .55, .96, .04, .36, .47, .012);
+
+    const desk = group('computer-desk'); desk.position.set(DESK.x, 0, DESK.z);
     rounded(desk, 'oak-desktop', paleOak, 0, 1.10, 0, 3.36, .13, 1.19, .055);
     for (const x of [-1.48, 1.48]) {
         box(desk, 'desk-front-leg', '#c6c1ae', x, .55, .44, .075, 1.05, .075);
@@ -38,7 +54,7 @@ export function furnishStudio({ group, mesh, box, rounded, cylinder, beam, mat, 
     cylinder(desk, 'pencil-cup', '#cab28f', 1.18, 1.28, -.29, .075, .061, .23);
     for (let i = 0; i < 3; i++) beam(desk, 'pencil-in-cup', ['#6c8674', '#bc865d', '#ddd5b6'][i], v(1.14 + i * .04, 1.28, -.29), v(1.11 + i * .07, 1.60, -.3), .012);
 
-    const chair = group('desk-chair'); chair.position.set(-1.56, 0, .45); chair.rotation.y = -.12;
+    const chair = group('desk-chair'); chair.position.set(INDOOR_PROPS.chair.x, 0, INDOOR_PROPS.chair.z); chair.rotation.y = 0;
     rounded(chair, 'chair-seat', '#72866f', 0, .62, 0, .72, .12, .66, .08);
     rounded(chair, 'chair-back', '#80917a', 0, .99, .29, .70, .64, .095, .085);
     for (const x of [-.25, .25]) beam(chair, 'back-support', '#515e50', v(x, .58, .24), v(x, .87, .31), .026);
@@ -49,7 +65,7 @@ export function furnishStudio({ group, mesh, box, rounded, cylinder, beam, mat, 
         const wheel = cylinder(chair, 'chair-caster', '#3b4541', x, .048, z, .048, .048, .055); wheel.rotation.z = Math.PI / 2;
     }
 
-    const bench = group('maker-workbench'); bench.position.set(2.16, 0, -.36);
+    const bench = group('maker-workbench'); bench.position.set(WORKBENCH.x, 0, WORKBENCH.z); bench.rotation.y = WORKBENCH.yaw;
     rounded(bench, 'workbench-top', oak, 0, 1.00, 0, 2.88, .14, 1.62, .035);
     for (const x of [-1.28, 1.28]) for (const z of [-.64, .64]) box(bench, 'bench-leg', '#60776d', x, .5, z, .11, .98, .11);
     box(bench, 'bench-front-apron', '#718479', 0, .82, .69, 2.69, .21, .07);
