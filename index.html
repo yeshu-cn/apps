@@ -7,9 +7,15 @@
     <meta name="theme-color" content="#bbd8ce">
     <title>Yeshu — 做着玩，也用得上</title>
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="room.css?v=snowboarder-20260922">
+    <script>
+        document.documentElement.dataset.sceneBoot = 'loading';
+        window.roomBootTimer = setTimeout(() => {
+            if (!document.querySelector('#room-stage[data-renderer="ready"]')) document.documentElement.dataset.sceneBoot = 'slow';
+        }, 20000);
+    </script>
+    <link rel="stylesheet" href="room.css?v=startup-20260923">
     <script type="importmap">{"imports":{"three":"./assets/vendor/three/three.module.min.js"}}</script>
-    <script type="module" src="room.js?v=characters-20260923"></script>
+    <script type="module" src="room.js?v=startup-20260923"></script>
 </head>
 <body>
 <div class="page">
@@ -22,6 +28,9 @@
         <div class="intro"><p class="eyebrow">海边的小工作室</p><h1>在小岛上，慢慢做。</h1><p>写代码，玩单板。<span>也慢慢做些小东西。</span></p></div>
         <section class="room-stage" id="room-stage" aria-label="海岛小屋：电脑桌、工作台、3D 打印机、Avata 2 穿越机和应用作品" data-view="island">
             <canvas class="room-canvas" id="room-canvas" aria-hidden="true"></canvas>
+            <div class="scene-loading-message" role="status"><span class="scene-loading-dot" aria-hidden="true"></span><p>正在前往小岛…</p></div>
+            <p class="scene-failure-message" role="status">暂时无法打开小岛，仍可在这里浏览作品。</p>
+            <p class="scene-slow-message" role="status">小岛加载较慢，可以先浏览作品。</p>
             <button id="resident-marker" class="resident-marker" type="button" aria-label="和人物打个招呼" title="打个招呼" hidden>你</button>
             <div id="walk-controls" class="walk-controls" hidden><button id="walk-joystick" type="button" aria-label="拖动摇杆移动人物，松手停止"><span class="joystick-knob"></span></button><span class="joystick-caption">移动</span></div>
             <nav class="objects" id="objects" aria-label="房间里的小东西">

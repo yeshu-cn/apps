@@ -76,4 +76,7 @@ import('./room-scene.js?v=characters-20260923').then(({ startRoomScene }) => sta
     stage.dataset.renderer = 'fallback';
     document.getElementById('room-controls').hidden = true;
     console.warn('The 3D room is unavailable; all app links remain usable.', error);
+}).finally(() => {
+    clearTimeout(window.roomBootTimer);
+    delete document.documentElement.dataset.sceneBoot;
 });

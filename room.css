@@ -151,3 +151,15 @@ button.resident-marker:hover { background: #365a4e; }
 .app-monogram { width: 48px; height: 48px; display: grid; place-items: center; border-radius: 11px; background: #d4e0d2; color: #405442; font-size: 23px; font-style: normal; }
 .room-stage[data-renderer="ready"]:not([data-show-apps="true"]) [data-tray-only] { display: none; }
 .room-stage[data-renderer="ready"][data-show-apps="true"] .app-monogram { width: 34px; height: 34px; border-radius: 8px; font-size: 18px; }
+
+/* Loading is distinct from the accessible fallback catalogue. Without JS, links stay visible. */
+.scene-loading-message, .scene-failure-message, .scene-slow-message { display: none; }
+html[data-scene-boot="loading"] .room-stage:not([data-renderer]):not([data-show-apps="true"]) .objects { display: none; }
+html[data-scene-boot="loading"] .room-stage:not([data-renderer]):not([data-show-apps="true"]) { height: 100svh; }
+html[data-scene-boot="loading"] .page:has(.room-stage:not([data-renderer]):not([data-show-apps="true"])) { background: #bed8cf; }
+html[data-scene-boot="loading"] .room-stage:not([data-renderer]):not([data-show-apps="true"]) .scene-loading-message { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px; pointer-events: none; color: #48685d; font-size: 12px; letter-spacing: .08em; }
+.scene-loading-dot { width: 8px; height: 8px; border-radius: 50%; background: #648777; box-shadow: -18px 0 #64877755, 18px 0 #64877755; animation: scene-loading-pulse 1.4s ease-in-out infinite; }
+@keyframes scene-loading-pulse { 50% { opacity: .3; } }
+.room-stage[data-renderer="fallback"] .scene-failure-message,
+html[data-scene-boot="slow"] .room-stage:not([data-renderer]) .scene-slow-message { display: block; position: absolute; top: 225px; left: 24px; right: 24px; text-align: center; font-size: 12px; line-height: 1.7; color: #748073; }
+@media (prefers-reduced-motion: reduce) { .scene-loading-dot { animation: none; } }
