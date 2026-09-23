@@ -29,7 +29,7 @@ Outdoor rendering also animates the boat, shore foam, water, clouds and rain, wi
 
 Rapier 3D compatibility 0.20.0 is vendored locally in `assets/vendor/rapier/`, including its Apache-2.0 license. Its ESM build embeds WebAssembly; no build step or remote runtime service is added. Documentation: https://rapier.rs/docs/user_guides/javascript/character_controller/ . Existing generated textures and licensed Bootstrap icons are reused.
 
-The earlier `atlas-*`, `island-*` and other legacy homepage files remain available but are not loaded by the current entry page. Existing app landing pages are separate from the room implementation.
+The archived `atlas-*` prototype files are not loaded by the current entry page. Existing app landing pages are separate from the room implementation.
 
 Asset provenance and licenses are recorded in `assets/SOURCES.md` and `assets/vendor/`. Earlier browser verification is recorded in `design-qa.md`; later checks and screenshots are reported in their task replies.
 
@@ -59,7 +59,9 @@ The catalogue contains 起落, KeepShot · 流影, 潜彩, 拍尺, 衣序, 导�
 
 The “选择人物” control opens a native dialog with previews for the original snowboarder and the new alpine explorer. The alpine explorer (“雪山探索者”) is the default when no valid choice has been saved; an explicit saved selection still takes precedence. Selection keeps the player position and heading, saves locally in this browser, and swaps only after loading succeeds. A failed request keeps the current character and permits retry. The dialog suspends movement and supports Escape and focus restoration. All paper dialogs initially focus their title so opening one does not highlight its close control; keyboard focus outlines remain available on interactive controls.
 
-`room-character-picker.js` and `.css` implement the picker. `room-resident.js` defines the model catalogue and loads the selected rig. The alpine explorer is 5,009,276 bytes with 22 bones, 72,266 triangles and Idle / Walk / Wave clips. Its editable master and scripts are in `/Users/yeshu/Downloads/alpine_explorer_rigged/`; the website ships only the optimized GLB and previews. This is a body FK rig without separate facial or finger controls.
+`room-character-picker.js` and `.css` implement the picker. `room-resident.js` defines the model catalogue and loads the selected rig. The alpine explorer is 5,010,132 bytes with 22 bones, 72,266 triangles and Idle / Walk / Wave clips. Its editable master and scripts are in `/Users/yeshu/Downloads/alpine_explorer_rigged/`; the website ships only the optimized GLB and previews. This is a body FK rig without separate facial or finger controls.
+
+The alpine Walk clip narrows the ankle spacing by about 40% and reduces toe-out by 9 degrees, with sole orientation and pelvis height compensated for ground contact. Idle and Wave keep their original standing stance.
 
 ## Neighbouring football island — 2026-09-23
 

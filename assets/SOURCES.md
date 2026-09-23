@@ -101,5 +101,5 @@ The user requested substantially more land around the cottage and direct control
 ## Wall-aligned layout and 360-degree inspection — 2026-09-23
 
 - Removed the added rear windows. The cottage again uses the original four actual window openings, including the two flanking the entrance. Shared wall/window geometry is cut away according to camera direction.
-- Rotated the full-size bookcase against the left wall and printer workbench against the right wall; moved the computer desk against the rear wall. Existing furniture, App artwork, snowboard and character assets are retained.
+- Placed the full-size bookcase beside the computer desk against the rear wall and rotated the printer workbench against the right wall. The bed is rotated into the front-left corner, and the central pendant and support are removed. Existing furniture, App artwork, snowboard and character assets are retained.
 - Enabled full horizontal interior orbit plus bounded wheel/pinch zoom, and culled foreground palms while inspecting the room. No new asset or dependency.
