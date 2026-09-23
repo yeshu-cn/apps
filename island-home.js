@@ -11,6 +11,19 @@ const stage = document.getElementById('world-stage');
 const canvas = document.getElementById('world-canvas');
 const dockLinks = [...document.querySelectorAll('.dock-app')];
 const hotspotLayer = document.getElementById('world-hotspots');
+const appShelf = document.getElementById('app-shelf');
+const selectedPanel = document.getElementById('selected-app');
+function syncShelf() {
+    selectedPanel.hidden = !appShelf.open;
+    hotspotLayer.hidden = !appShelf.open || stage.dataset.state !== 'ready';
+}
+appShelf.addEventListener('toggle', syncShelf);
+document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && appShelf.open && !about.open) {
+        appShelf.open = false;
+        document.getElementById('shelf-toggle').focus({ preventScroll: true });
+    }
+});
 let selectedApp = 'divejournal';
 const markerButtons = new Map();
 function selectApp(id) {
@@ -122,7 +135,7 @@ async function startWorld() {
         function renderOnce() { renderer.render(scene, camera); updatePins(); }
         resizeObserver = new ResizeObserver(resize); resizeObserver.observe(stage);
         controls.update(); resize();
-        stage.dataset.state = 'ready'; hotspotLayer.hidden = false; document.getElementById('scene-tools').hidden = false;
+        stage.dataset.state = 'ready'; syncShelf(); document.getElementById('scene-tools').hidden = false;
         const motionButton = document.getElementById('toggle-motion');
         let time = 0, moving = !reduceMotion.matches, previous = 0, lastFrame = 0;
         function syncMotion() { motionButton.setAttribute('aria-pressed', String(!moving)); motionButton.querySelector('span').textContent = moving ? '暂停动画' : '播放动画'; }
@@ -155,14 +168,14 @@ async function startWorld() {
         canvas.addEventListener('pointerdown', e => { down = { x: e.clientX, y: e.clientY }; });
         canvas.addEventListener('pointercancel', () => { down = null; });
         canvas.addEventListener('pointerup', e => {
-            if (!down || Math.hypot(e.clientX - down.x, e.clientY - down.y) > 6) { down = null; return; }
+            if (!appShelf.open || !down || Math.hypot(e.clientX - down.x, e.clientY - down.y) > 6) { down = null; return; }
             down = null; const rect = canvas.getBoundingClientRect();
             pointer.set((e.clientX - rect.left) / rect.width * 2 - 1, -(e.clientY - rect.top) / rect.height * 2 + 1); ray.setFromCamera(pointer, camera);
             const hit = ray.intersectObject(world.root, true)[0];
             if (hit) { let object = hit.object; while (object && !object.userData.appId) object = object.parent; if (object?.userData.appId) selectApp(object.userData.appId); }
         });
-        canvas.addEventListener('webglcontextlost', event => { event.preventDefault(); fallback('场景暂时休息，仍可通过下方图标浏览应用。'); });
-        canvas.addEventListener('webglcontextrestored', () => { stage.dataset.state = 'ready'; hotspotLayer.hidden = false; document.getElementById('scene-tools').hidden = false; resize(); requestRender(); });
+        canvas.addEventListener('webglcontextlost', event => { event.preventDefault(); fallback('场景暂时休息，先看看这片山海。'); });
+        canvas.addEventListener('webglcontextrestored', () => { stage.dataset.state = 'ready'; syncShelf(); document.getElementById('scene-tools').hidden = false; resize(); requestRender(); });
         addEventListener('pagehide', event => {
             cancelAnimationFrame(animationId); animationId = undefined; previous = 0;
             if (event.persisted) return;
@@ -172,7 +185,7 @@ async function startWorld() {
     } catch (error) {
         console.warn('The 3D scene is unavailable; app navigation remains available.', error);
         resizeObserver?.disconnect(); controls?.dispose(); world?.dispose(); renderer?.dispose();
-        fallback('当前显示静态景观，点击下方图标浏览应用。');
+        fallback('当前显示静态景观。');
     }
 }
 startWorld();

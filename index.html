@@ -3,72 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Yeshu 的个人作品集。写代码，玩单板，在一个山海小世界里发现潜水日记、数独、旅行清单、导游账本、潜彩、拍尺和衣序。">
-    <meta name="theme-color" content="#e4ece5">
-    <title>Yeshu — 写代码，玩单板</title>
+    <meta name="description" content="Yeshu 的海岛小屋。写代码，玩单板，也做一些日常里的小工具。">
+    <meta name="theme-color" content="#bbd8ce">
+    <title>Yeshu — 做着玩，也用得上</title>
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="island-home.css">
-    <script type="importmap">{"imports":{"three":"./assets/vendor/three/three.module.min.js","three/addons/":"./assets/vendor/three/addons/"}}</script>
-    <script type="module" src="island-home.js"></script>
+    <script>
+        document.documentElement.dataset.sceneBoot = 'loading';
+        window.roomBootTimer = setTimeout(() => {
+            if (!document.querySelector('#room-stage[data-renderer="ready"]')) document.documentElement.dataset.sceneBoot = 'slow';
+        }, 20000);
+    </script>
+    <link rel="stylesheet" href="room.css?v=dialog-default-20260923">
+    <script type="importmap">{"imports":{"three":"./assets/vendor/three/three.module.min.js"}}</script>
+    <script type="module" src="room.js?v=dialog-default-20260923"></script>
 </head>
-<body class="island-page">
-    <a class="skip-link" href="#apps">跳到全部作品</a>
-    <header class="island-header">
-        <a class="wordmark" href="./" aria-label="Yeshu 首页">yeshu<span class="wordmark-dot">.</span></a>
-        <nav aria-label="主导航">
-            <a href="#about" id="about-trigger">关于</a>
-            <a class="contact-nav" href="mailto:guan.yeshu@gmail.com">联系 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-        </nav>
+<body>
+<div class="page">
+    <a class="skip-link" href="#objects">浏览小房间里的应用</a>
+    <header class="site-header">
+        <a class="wordmark" href="./" aria-label="Yeshu 首页">yeshu.</a>
+        <nav aria-label="主导航"><a href="#about" data-open-panel>关于</a></nav>
     </header>
-    <main class="portfolio-world" id="main">
-        <div class="world-intro">
-            <h1>写代码，<br>玩单板。</h1>
-            <p>在屏幕前做些小东西，<br>也去屏幕外看看世界。</p>
-        </div>
-        <div class="world-stage" id="world-stage" data-state="loading">
-            <img class="world-fallback" src="assets/world-fallback.jpg" alt="微缩山海景观：雪山、滑雪道、开发工作室和潜水海湾" width="924" height="528">
-            <canvas id="world-canvas" aria-label="可拖动旋转的山海小世界；应用入口也可通过下方全部作品访问"></canvas>
-            <div class="world-hotspots" id="world-hotspots" aria-label="场景中的应用入口" hidden></div>
-            <p class="scene-message" id="scene-message" role="status">山海之间，慢慢相遇。</p>
-        </div>
-        <section class="selected-app" aria-labelledby="selected-title" aria-live="polite" aria-atomic="true">
-            <div class="selected-heading">
-                <img id="selected-icon" src="assets/divejournal-icon.png" width="48" height="48" alt="">
-                <div><h2 id="selected-title">潜水日记</h2><p class="selected-status" id="selected-status">测试中</p></div>
-            </div>
-            <p class="selected-description" id="selected-description">用文字、照片和录音留住潜水回忆，AI 协助整理。</p>
-            <a class="app-destination" id="app-destination" href="divejournal/"><span>了解应用</span> <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <main class="main">
+        <div class="intro"><p class="eyebrow">海边的小工作室</p><h1>在小岛上，慢慢做。</h1><p>写代码，玩单板。<span>也慢慢做些小东西。</span></p></div>
+        <section class="room-stage" id="room-stage" aria-label="海岛小屋与旁边的足球岛：小屋内有电脑桌、工作台、3D 打印机、Avata 2 穿越机和作品书架，邻岛上有草坪足球场" data-view="island">
+            <canvas class="room-canvas" id="room-canvas" aria-hidden="true"></canvas>
+            <div class="scene-loading-message" role="status"><span class="scene-loading-dot" aria-hidden="true"></span><p>正在前往小岛…</p></div>
+            <p class="scene-failure-message" role="status">暂时无法打开小岛，仍可在这里浏览作品。</p>
+            <p class="scene-slow-message" role="status">小岛加载较慢，可以先浏览作品。</p>
+            <button id="resident-marker" class="resident-marker" type="button" aria-label="和人物打个招呼" title="打个招呼" hidden>你</button>
+            <button id="ferry-marker" class="ferry-marker" type="button" hidden>码头 · 乘船</button>
+            <div id="ferry-panel" class="ferry-panel" hidden><p id="ferry-status" role="status" aria-live="polite"></p><button id="ferry-action" type="button">上船去足球岛</button><span class="ferry-key-hint">也可以按 E</span></div>
+            <div id="walk-controls" class="walk-controls" hidden><button id="walk-joystick" type="button" aria-label="拖动摇杆移动人物，松手停止"><span class="joystick-knob"></span></button><span class="joystick-caption">移动</span></div>
+            <nav class="objects" id="objects" aria-label="作品书架">
+                <div class="objects-heading"><div><p>慢慢做出来的</p><h2>作品书架</h2></div><button id="close-objects" type="button" aria-label="收起作品书架"><img src="assets/vendor/bootstrap-icons/x.svg" alt="" width="20" height="20"></button></div>
+                <a class="room-object" href="https://apps.apple.com/us/app/id6796671573" data-app="snowcut" data-status="App Store" data-description="从滑雪视频中自动挑出起跳与动作片段，整理成训练集锦。"><img src="assets/snowcut-icon.jpg" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">起落</span><small>已上线</small></span></a>
+                <a class="room-object" href="https://apps.apple.com/cn/app/id6772764457" data-app="keepshot" data-status="App Store" data-description="点评单张照片，或从相似照片中挑出更值得留下的一张。"><img src="assets/keepshot-icon.png" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">KeepShot · 流影</span><small>已上线</small></span></a>
+                <a class="room-object" href="https://apps.apple.com/us/app/id6809382549" data-app="aquatrue" data-status="App Store" data-description="还原水下视频的偏绿、偏蓝，让真实色彩重新浮现。"><img src="assets/aquatrue-icon.png" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">潜彩</span><small>已上线</small></span></a>
+                <a class="room-object" href="https://apps.apple.com/cn/app/id6810995368" data-app="imagesize" data-status="App Store" data-description="用 LiDAR iPhone 拍照测量，把尺寸直接留在照片上。"><img src="assets/imagesize-icon.png" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">拍尺</span><small>已上线</small></span></a>
+                <a class="room-object" href="https://apps.apple.com/us/app/id6812704917" data-app="yixu" data-status="App Store" data-description="整理衣橱，用数字人预览日常穿搭。"><img src="assets/yixu-icon.png" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">衣序</span><small>已上线</small></span></a>
+                <a class="room-object" href="https://apps.apple.com/cn/app/id6760816092" data-app="ledger" data-status="App Store" data-description="按行程记录收支，整理带团账目与报销。"><img src="assets/guide-ledger.png" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">导游账本</span><small>已上线</small></span></a>
+                <a class="room-object" href="https://apps.apple.com/us/app/id6465693593" data-app="trip" data-status="App Store" data-description="收好行前清单、路上的见闻和旅途中的花销。"><img src="assets/trip-note-icon.jpg" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">山海 · 旅行笔记</span><small>已上线</small></span></a>
+                <a class="room-object" href="https://apps.apple.com/cn/app/id6749299523" data-app="dao" data-status="App Store" data-description="从道家视角梳理疑问与选择，留一点时间给思考。"><img src="assets/dao-icon.jpg" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">问道</span><small>已上线</small></span></a>
+                <a class="room-object" href="https://apps.apple.com/us/app/id6738989430" data-app="dailyframe" data-status="App Store" data-description="每天留下一张照片，用影像串起生活与时间。"><img src="assets/dailyframe-icon.jpg" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">DailyFrame</span><small>已上线</small></span></a>
+                <a class="room-object" href="https://apps.apple.com/us/app/id6739861072" data-app="outtool" data-status="App Store" data-description="查看方向与海拔，给徒步和户外探索多一点参考。"><img src="assets/outtool-icon.jpg" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">OutTool · 户外工具</span><small>已上线</small></span></a>
+                <a class="room-object" href="https://apps.apple.com/us/app/id1591771209" data-app="sudoku" data-status="App Store" data-description="从容易到进阶，在九宫格里专心解一道题。"><img src="assets/sudoku-icon.jpg" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">数独</span><small>已上线</small></span></a>
+                <a class="room-object" href="https://apps.apple.com/cn/app/id1581064133" data-app="materialcolor" data-status="App Store" data-description="随手查阅 Material Design 色板，找到合适的颜色。"><img src="assets/materialcolor-icon.jpg" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">Material Color</span><small>已上线</small></span></a>
+                <a class="room-object" href="https://apps.apple.com/cn/app/id1535019603" data-app="poetry" data-status="App Store" data-description="读诗、查诗、收藏诗句，把喜欢的文字留在身边。"><img src="assets/poetry-icon.jpg" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">古诗词笔记本</span><small>已上线</small></span></a>
+                <a class="room-object" href="divejournal/" data-app="divejournal" data-status="测试中" data-description="用文字、照片和录音留住潜水回忆，AI 协助整理。"><img src="assets/divejournal-icon.png" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">潜水日记</span><small>测试中</small></span></a>
+            </nav>
+            <span id="app-hover-label" class="app-hover-label" hidden></span>
+            <button id="bookcase-marker" class="bookcase-marker" type="button" aria-label="打开作品书架" aria-controls="objects" aria-expanded="false" hidden>作品书架</button>
         </section>
+        <details class="island-weather" id="island-weather" hidden>
+            <summary aria-label="调整小岛天气和时间"><span class="weather-symbol" aria-hidden="true">☀</span><span id="weather-current">晴天</span><span class="weather-divider"></span><time id="island-clock">12:00</time><span class="weather-chevron" aria-hidden="true">⌄</span></summary>
+            <div class="weather-settings">
+                <p class="weather-caption">小岛天气 <span>模拟</span></p>
+                <div class="weather-options" role="group" aria-label="模拟天气"><button type="button" data-weather="sunny" aria-pressed="true">晴天</button><button type="button" data-weather="cloudy" aria-pressed="false">多云</button><button type="button" data-weather="rainy" aria-pressed="false">小雨</button></div>
+                <label class="time-label" for="island-time">一天的光 <output id="island-time-label" for="island-time">12:00</output></label>
+                <input id="island-time" type="range" min="0" max="1439" step="1" value="720" aria-valuetext="12:00">
+                <div class="time-ticks" aria-hidden="true"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
+                <div class="time-actions"><span id="island-time-mode">跟随本地时间</span><button type="button" id="island-time-reset" hidden>回到此刻</button></div>
+            </div>
+        </details>
+        <div class="room-tools" id="room-controls" hidden><span class="room-hint">WASD / 方向键移动 · 拖动看四周<span>走到码头乘船，去隔壁的足球岛。</span></span><div class="room-buttons"><button id="toggle-view" type="button" aria-pressed="false">走进小屋</button><button id="reset-view" type="button">跟随人物</button></div></div>
     </main>
-    <footer class="world-footer">
-        <nav class="app-dock" id="apps" aria-label="全部作品">
-            <a class="dock-app" href="divejournal/" data-app="divejournal" aria-current="true"><img src="assets/divejournal-icon.png" alt="" width="40" height="40"><span>潜水日记</span></a>
-            <a class="dock-app" href="https://apps.apple.com/us/app/id1591771209" data-app="sudoku"><img src="assets/sudoku-icon.jpg" alt="" width="40" height="40"><span>数独</span></a>
-            <a class="dock-app" href="https://apps.apple.com/us/app/id6465693593" data-app="trip"><img src="assets/trip-note-icon.jpg" alt="" width="40" height="40"><span>旅行清单</span></a>
-            <a class="dock-app" href="guide-ledger/" data-app="ledger"><img src="assets/guide-ledger.png" alt="" width="40" height="40"><span>导游账本</span></a>
-            <a class="dock-app" href="aquatrue/" data-app="aquatrue"><img src="assets/aquatrue-icon.png" alt="" width="40" height="40"><span>潜彩</span></a>
-            <a class="dock-app" href="imagesize/" data-app="imagesize"><img src="assets/imagesize-icon.png" alt="" width="40" height="40"><span>拍尺</span></a>
-            <a class="dock-app" href="yixu/" data-app="yixu"><img src="assets/yixu-icon.png" alt="" width="40" height="40"><span>衣序</span></a>
-        </nav>
-        <div class="scene-tools" id="scene-tools" hidden>
-            <span class="scene-hint">拖动场景，换个角度</span>
-            <button type="button" id="reset-view" aria-label="恢复初始视角"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 10a8 8 0 1 1 1 8M4 4v6h6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>初始视角</span></button>
-            <button type="button" id="toggle-motion" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path class="pause-symbol" d="M9 6v12M15 6v12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><path class="play-symbol" d="m8 5 11 7-11 7V5Z" fill="currentColor"/></svg><span>暂停动画</span></button>
-        </div>
-    </footer>
-    <dialog class="about-dialog" id="about" aria-labelledby="about-title">
-        <div class="about-dialog-inner">
-            <button type="button" class="dialog-close" aria-label="关闭关于"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
-            <noscript><a class="dialog-close" href="#">关闭</a></noscript>
-            <p class="eyebrow" lang="en">AWAY FROM THE SCREEN</p>
-            <h2 id="about-title">代码之外。</h2>
-            <p>你好，我是 Yeshu。<br>喜欢写代码，也喜欢户外运动。</p>
-            <p>这里放着我做的几个小应用。关于它们的使用体验、遇到的问题，或一个有意思的想法，都欢迎写信聊聊。</p>
-            <a class="about-email" href="mailto:guan.yeshu@gmail.com">guan.yeshu@gmail.com</a>
-            <div class="about-legal"><a href="agreement-and-privacy.html">隐私与协议</a><a href="agreement.html">用户协议</a><span>© 2026 Yeshu</span></div>
+    <footer class="site-footer"><p>一些小东西，慢慢完善。</p><span>© 2026 Yeshu</span></footer>
+</div>
+<dialog class="paper-panel" id="app-detail" aria-labelledby="detail-title">
+    <div class="panel-inner">
+        <a class="panel-close" href="#" data-close-panel aria-label="关闭应用介绍"><img class="ui-icon" src="assets/vendor/bootstrap-icons/x.svg" alt="" width="24" height="24"></a>
+        <img class="app-detail-icon" id="detail-icon" src="assets/divejournal-icon.png" alt="" width="64" height="64">
+        <p class="panel-kicker" id="detail-status">测试中</p><h2 id="detail-title" tabindex="-1" autofocus>潜水日记</h2>
+        <p class="panel-description" id="detail-description">用文字、照片和录音留住潜水回忆，AI 协助整理。</p>
+        <a class="preview-link" id="detail-link" href="divejournal/"><span>去看看</span><img class="ui-icon" src="assets/vendor/bootstrap-icons/arrow-up-right.svg" alt="" width="16" height="16"></a>
+    </div>
+</dialog>
+    <dialog class="paper-panel about-panel" id="about" aria-labelledby="about-title">
+        <div class="panel-inner">
+            <a class="panel-close" href="#" data-close-panel aria-label="关闭关于"><img class="ui-icon" src="assets/vendor/bootstrap-icons/x.svg" alt="" width="24" height="24"></a>
+            <p class="panel-kicker">小房间之外</p><h2 id="about-title" tabindex="-1" autofocus>你好，我是 Yeshu。</h2>
+            <p>喜欢写代码，玩单板，也喜欢去屏幕外看看世界。</p>
+            <p>海岛上的小屋里，收着慢慢做出来的小东西。没有赶着完成的计划，就按自己的节奏，一点点折腾。</p>
+            <div class="panel-legal"><a href="agreement-and-privacy.html">隐私与协议</a><a href="agreement.html">用户协议</a><span>© 2026 Yeshu</span></div>
         </div>
     </dialog>
-    <noscript><style>.scene-message, button.dialog-close { display: none; }</style><p class="no-script-note">点击应用图标即可前往应用页面。<a href="agreement-and-privacy.html">隐私与协议</a></p></noscript>
 </body>
 </html>
