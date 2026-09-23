@@ -3,20 +3,29 @@ import { GLTFLoader } from './assets/vendor/three/addons/loaders/GLTFLoader.js';
 import { RoomEnvironment } from './assets/vendor/three/addons/environments/RoomEnvironment.js';
 import { createFallbackResident } from './room-resident-fallback.js';
 
-const MODEL_URL = new URL('./assets/models/snowboarder-web.glb?v=20260922', import.meta.url).href;
+export const RESIDENT_MODELS = [
+    { id: 'snowboarder', label: '轻装滑雪者', description: '熟悉的山系伙伴', file: 'snowboarder-web.glb?v=20260922', preview: 'snowboarder-preview.webp' },
+    { id: 'alpine', label: '雪山探索者', description: '冰蓝雪服 · 橙色雪镜 · 登山背包', file: 'alpine-explorer-web.glb?v=20260923', preview: 'alpine-preview.webp' },
+];
+export function savedResident() {
+    try { const id = localStorage.getItem('yeshu-resident'); if (RESIDENT_MODELS.some(model => model.id === id)) return id; } catch {}
+    return 'snowboarder';
+}
 const HEIGHT = 1.5;
 
-export async function createResident(renderer) {
+export async function createResident(renderer, id = savedResident(), { allowFallback = true, heading = 0 } = {}) {
+    const choice = RESIDENT_MODELS.find(model => model.id === id) || RESIDENT_MODELS[0];
     let gltf;
     try {
-        gltf = await new GLTFLoader().loadAsync(MODEL_URL);
+        gltf = await new GLTFLoader().loadAsync(new URL(`./assets/models/${choice.file}`, import.meta.url).href);
     } catch (error) {
+        if (!allowFallback) throw error;
         console.warn('The custom resident could not load; using the lightweight character.', error);
-        return { ...createFallbackResident(), source: 'fallback', greet: () => false };
+        return { ...createFallbackResident(), source: 'fallback', get heading() { return heading; }, greet: () => false };
     }
     const root = new T.Group(); root.name = 'island-resident';
     const visual = new T.Group(); visual.name = 'resident-heading'; root.add(visual);
-    const model = gltf.scene; model.name = 'snowboarder-character'; visual.add(model);
+    const model = gltf.scene; model.name = `${choice.id}-character`; visual.add(model);
     // The supplied PBR materials need reflected light, especially the helmet.
     const studio = new RoomEnvironment(), pmrem = new T.PMREMGenerator(renderer);
     const environment = pmrem.fromScene(studio, .04);
@@ -37,7 +46,7 @@ export async function createResident(renderer) {
     });
     const mixer = new T.AnimationMixer(model);
     const actions = Object.fromEntries(gltf.animations.map(clip => [clip.name, mixer.clipAction(clip)]));
-    let current = null, fading = 0, moving = false, yaw = 0, greetingYaw = null, wasReduced = null;
+    let current = null, fading = 0, moving = false, yaw = heading, greetingYaw = null, wasReduced = null;
     function play(name) {
         const next = actions[name];
         if (!next || (current === next && next.isRunning())) return;
@@ -58,7 +67,8 @@ export async function createResident(renderer) {
     mixer.addEventListener('finished', finished);
     rest(false); mixer.update(0);
     return {
-        root, source: 'snowboarder',
+        root, source: choice.id,
+        get heading() { return yaw; },
         greet(facing) {
             if (moving || current === actions.Wave && current.isRunning()) return false;
             greetingYaw = facing ?? yaw; play('Wave'); return true;

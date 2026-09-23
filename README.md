@@ -34,3 +34,9 @@ Asset provenance and licenses are recorded in `assets/SOURCES.md` and `assets/ve
 ## Custom snowboarder — 2026-09-22
 
 `assets/models/snowboarder-web.glb` is the web derivative of the user-supplied, repaired Blender character: 32 bones, 59,390 triangles, three animation clips (`Idle`, `Walk`, `Wave`) and embedded 1024 px JPEG textures. The local asset is approximately 3.4 MB, compared with the 48 MiB editing/export master. The standing hand and gait were adapted for this controllable island character; the held board is excluded from the player. No model upload or third-party runtime CDN is used. The original Blender project stays outside the web repository.
+
+## Selectable island characters — 2026-09-23
+
+The “选择人物” control opens a native dialog with previews for the original snowboarder and the new alpine explorer. Selection keeps the player position and heading, saves locally in this browser, and swaps only after loading succeeds. A failed request keeps the current character and permits retry. The dialog suspends movement and supports Escape and focus restoration.
+
+`room-character-picker.js` and `.css` implement the picker. `room-resident.js` defines the model catalogue and loads the selected rig. The alpine explorer is 5,009,276 bytes with 22 bones, 72,266 triangles and Idle / Walk / Wave clips. Its editable master and scripts are in `/Users/yeshu/Downloads/alpine_explorer_rigged/`; the website ships only the optimized GLB and previews. This is a body FK rig without separate facial or finger controls.

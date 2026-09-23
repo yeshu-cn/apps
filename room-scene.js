@@ -2,9 +2,10 @@ import * as T from 'three';
 import { OrbitControls } from './assets/vendor/three/addons/controls/OrbitControls.js';
 import { createRoom } from './room-model.js';
 import { createIsland } from './room-island.js';
-import { createResident } from './room-resident.js?v=snowboarder-20260922';
+import { createResident } from './room-resident.js?v=characters-20260923';
 import { createPlayer } from './room-player.js';
 import { createWalkInput } from './room-input.js';
+import { createCharacterPicker } from './room-character-picker.js?v=20260923';
 
 export async function startRoomScene({ stage, canvas, links, onSelect }) {
     const renderer = new T.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'low-power' });
@@ -56,6 +57,13 @@ export async function startRoomScene({ stage, canvas, links, onSelect }) {
     let width = 0, height = 0, frame = 0, lastTime = 0, settle = 0, modalOpen = Boolean(document.querySelector('dialog[open]')), lost = false, disposed = false, hovered = null, down = null;
     let browseOpen = stage.dataset.showApps === 'true';
     controls.enabled = !modalOpen && !browseOpen;
+    const picker = createCharacterPicker({ stage, getCurrent: () => resident.source, select: async id => {
+        const next = await createResident(renderer, id, { allowFallback: false, heading: resident.heading });
+        if (disposed) { next.dispose(); return; }
+        next.update(0, { ...player.state, moving: false }, reduced.matches);
+        const previous = resident; resident = next; scene.add(next.root); scene.remove(previous.root); previous.dispose();
+        stage.dataset.resident = next.source; requestFrame();
+    } });
     const input = createWalkInput({
         joystick: document.getElementById('walk-joystick'), knob: document.querySelector('.joystick-knob'), requestFrame,
         canMove: () => !modalOpen && !browseOpen && !lost && !disposed,
@@ -222,7 +230,7 @@ export async function startRoomScene({ stage, canvas, links, onSelect }) {
     listen(viewButton, 'click', () => setView(stage.dataset.view !== 'room', true));
     const dispose = () => {
         if (disposed) return; disposed = true; cancelAnimationFrame(frame); observer.disconnect(); listeners.forEach(remove => remove());
-        input.dispose(); controls.dispose(); room.dispose(); island.dispose(); resident.dispose(); player.dispose(); sun.dispose(); renderer.dispose();
+        picker.dispose(); input.dispose(); controls.dispose(); room.dispose(); island.dispose(); resident.dispose(); player.dispose(); sun.dispose(); renderer.dispose();
     };
     listen(window, 'pagehide', event => { if (!event.persisted) dispose(); });
     stage.dataset.renderer = 'ready';
