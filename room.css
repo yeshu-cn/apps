@@ -32,7 +32,7 @@ h1, h2, h3, p { margin: 0; }
 #walk-joystick { position: relative; display: grid; place-items: center; width: 94px; height: 94px; padding: 0; background: #f3efdf59; border: 1px solid #f7f1dfad; border-radius: 50%; touch-action: none; user-select: none; -webkit-user-select: none; }
 .joystick-knob { width: 38px; height: 38px; display: block; background: #f5efdfeb; border: 1px solid #789c88; border-radius: 50%; pointer-events: none; box-shadow: 0 3px 12px #3c614326; }
 #walk-joystick.is-active { background: #e8efcf82; border-color: #476d60; }
-.joystick-caption { font-size: 10px; letter-spacing: .15em; color: #375a51; pointer-events: none; }
+.joystick-caption { font-size: 10px; letter-spacing: .15em; color: #fff5df; pointer-events: none; }
 .room-stage:not([data-renderer="ready"]) .resident-marker { display: none; }
 @media (max-width: 700px), (pointer: coarse) { .walk-controls { display: flex; } }
 .ui-icon { display: block; width: 14px; height: 14px; opacity: .7; }
@@ -58,6 +58,14 @@ h1, h2, h3, p { margin: 0; }
 .objects-heading p { color: #8a8979; font-size: 10px; letter-spacing: .1em; margin-bottom: 7px; }
 .objects-heading h2 { font: 500 22px/1.4 "Songti SC", "STSong", Georgia, serif; color: #4e594b; }
 #close-objects { display: none; align-items: center; justify-content: center; width: 44px; height: 44px; border: 0; background: transparent; border-radius: 50%; }
+.shelf-filters { grid-column: 1 / -1; display: flex; gap: 6px; padding: 4px; margin-bottom: 10px; border-radius: 12px; background: #e8e7dc; }
+.shelf-filters button { flex: 1; min-height: 44px; padding: 10px 8px; border: 0; border-radius: 9px; background: transparent; color: #727669; font-size: 12px; }
+.shelf-filters button[aria-pressed="true"] { color: #3d594b; background: #fffdf5; box-shadow: 0 2px 7px #3146340b; }
+.shelf-filters span { margin-left: 5px; font-size: 10px; opacity: .65; }
+.shelf-collection { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 16px; }
+.shelf-note { grid-column: 1 / -1; color: #7c796e; font-size: 12px; line-height: 1.9; padding: 4px 2px 14px; }
+.shelf-ended .room-object { grid-column: 1 / -1; padding: 14px 12px; border: 1px solid #dcd8cb; background: #ebe7db80; }
+.shelf-ended .object-copy small { color: #8b7160; }
 .room-object { display: flex; align-items: center; gap: 11px; min-width: 0; min-height: 62px; padding: 8px 4px; border-radius: 7px; color: #4c5c50; }
 .room-object:hover, .room-object:focus-visible { background: #e5e7dc; }
 .room-object img { flex: none; width: 34px; height: 34px; border-radius: 8px; object-fit: cover; }
@@ -139,8 +147,8 @@ h1, h2, h3, p { margin: 0; }
 
 /* The ocean is the page background in the default orthographic island view. */
 .page { background: #bed8cf; }
-.site-header, .intro, .intro p, .room-hint, .site-footer { color: #375a51; text-shadow: none; }
-.intro .eyebrow { color: #57766b; }
+.site-header, .intro, .intro p, .room-hint, .site-footer { color: #fff5df; text-shadow: 0 1px 10px #083b5266; }
+.intro .eyebrow { color: #e4eee0; }
 .site-header .ui-icon { filter: none; }
 .room-tools button { border-color: #56766930; background: #f6f1e5ed; color: #435d51; }
 #toggle-view { background: #476d60; color: #fff8e8; border-color: #476d60; }
@@ -148,7 +156,7 @@ h1, h2, h3, p { margin: 0; }
 #reset-view { background: #edf3e6aa; }
 .page:has(.room-stage[data-view="room"][data-renderer="ready"]) .intro { display: none; }
 .page:has(.room-stage[data-following="true"]) .intro { display: none; }
-.page:has(.room-stage[data-view="room"][data-renderer="ready"]) .site-header { padding-top: 15px; }
+.page:has(.room-stage[data-view="room"][data-renderer="ready"]) .site-header { padding-top: 15px; color: #375a51; text-shadow: none; }
 .page:has(.room-stage[data-view="room"][data-renderer="ready"]) .wordmark { font-size: 30px; }
 .page:has(.room-stage[data-view="room"][data-renderer="ready"]) .room-hint { color: #fff6e5; text-shadow: 0 1px 9px #4a3d27; }
 @media (max-width: 700px) {

@@ -13,9 +13,9 @@
             if (!document.querySelector('#room-stage[data-renderer="ready"]')) document.documentElement.dataset.sceneBoot = 'slow';
         }, 20000);
     </script>
-    <link rel="stylesheet" href="room.css?v=scene-failure-20260924">
+    <link rel="stylesheet" href="room.css?v=crafted-20260924">
     <script type="importmap">{"imports":{"three":"./assets/vendor/three/three.module.min.js"}}</script>
-    <script type="module" src="room.js?v=scene-failure-20260924"></script>
+    <script type="module" src="room.js?v=crafted-20260924"></script>
 </head>
 <body>
 <div class="page">
@@ -38,6 +38,11 @@
             <div id="walk-controls" class="walk-controls" hidden><button id="walk-joystick" type="button" aria-label="拖动摇杆移动人物，松手停止"><span class="joystick-knob"></span></button><span class="joystick-caption">移动</span></div>
             <nav class="objects" id="objects" aria-label="作品书架">
                 <div class="objects-heading"><div><p>慢慢做出来的</p><h2>作品书架</h2></div><button id="close-objects" type="button" aria-label="收起作品书架"><img src="assets/vendor/bootstrap-icons/x.svg" alt="" width="20" height="20"></button></div>
+                <div class="shelf-filters" role="group" aria-label="按项目状态浏览">
+                    <button type="button" data-shelf-filter="active" aria-pressed="true" aria-controls="shelf-active">在做与已上线 <span>14</span></button>
+                    <button type="button" data-shelf-filter="ended" aria-pressed="false" aria-controls="shelf-ended">已终止 <span>1</span></button>
+                </div>
+                <div class="shelf-collection" id="shelf-active" aria-label="在做与已上线的项目">
                 <a class="room-object" href="https://apps.apple.com/us/app/id6796671573" data-app="snowcut" data-status="App Store" data-description="从滑雪视频中自动挑出起跳与动作片段，整理成训练集锦。"><img src="assets/snowcut-icon.jpg" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">起落</span><small>已上线</small></span></a>
                 <a class="room-object" href="https://apps.apple.com/cn/app/id6772764457" data-app="keepshot" data-status="App Store" data-description="点评单张照片，或从相似照片中挑出更值得留下的一张。"><img src="assets/keepshot-icon.png" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">KeepShot · 流影</span><small>已上线</small></span></a>
                 <a class="room-object" href="https://apps.apple.com/us/app/id6809382549" data-app="aquatrue" data-status="App Store" data-description="还原水下视频的偏绿、偏蓝，让真实色彩重新浮现。"><img src="assets/aquatrue-icon.png" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">潜彩</span><small>已上线</small></span></a>
@@ -52,6 +57,11 @@
                 <a class="room-object" href="https://apps.apple.com/cn/app/id1581064133" data-app="materialcolor" data-status="App Store" data-description="随手查阅 Material Design 色板，找到合适的颜色。"><img src="assets/materialcolor-icon.jpg" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">Material Color</span><small>已上线</small></span></a>
                 <a class="room-object" href="https://apps.apple.com/cn/app/id1535019603" data-app="poetry" data-status="App Store" data-description="读诗、查诗、收藏诗句，把喜欢的文字留在身边。"><img src="assets/poetry-icon.jpg" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">古诗词笔记本</span><small>已上线</small></span></a>
                 <a class="room-object" href="divejournal/" data-app="divejournal" data-status="测试中" data-description="用文字、照片和录音留住潜水回忆，AI 协助整理。"><img src="assets/divejournal-icon.png" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">潜水日记</span><small>测试中</small></span></a>
+                </div>
+                <div class="shelf-collection shelf-ended" id="shelf-ended" aria-label="已终止的项目" hidden>
+                    <p class="shelf-note">放弃、失败或决定不再继续的项目，也在这里留一份记录。</p>
+                    <a class="room-object" href="photosort/" data-app="photosort" data-category="ended" data-status="已放弃 · 停止开发" data-description="曾想做一个读懂照片信息的 AI 照片助理。"><img src="assets/photosort-icon.png" alt="" width="36" height="36" loading="eager"><span class="object-copy"><span class="object-name">照理</span><small>已放弃 · 停止开发</small></span></a>
+                </div>
             </nav>
             <span id="app-hover-label" class="app-hover-label" hidden></span>
             <button id="bookcase-marker" class="bookcase-marker" type="button" aria-label="打开作品书架" aria-controls="objects" aria-expanded="false" hidden>作品书架</button>

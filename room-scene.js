@@ -1,13 +1,13 @@
 import * as T from 'three';
 import { ROOM_VIEW } from './room-layout.js?v=room-clear-20260923';
 import { OrbitControls } from './assets/vendor/three/addons/controls/OrbitControls.js';
-import { createRoom } from './room-model.js?v=room-clear-20260923';
-import { createIsland } from './room-island.js?v=ferry-20260923';
+import { createRoom } from './room-model.js?v=crafted-20260924';
+import { createIsland } from './room-island.js?v=crafted-20260924';
 import { createResident } from './room-resident.js?v=dialog-default-20260923';
-import { createPlayer } from './room-player.js?v=ferry-20260923';
+import { createPlayer } from './room-player.js?v=crafted-20260924';
 import { createFerry } from './room-ferry.js?v=ferry-20260923';
 import { createWalkInput } from './room-input.js';
-import { createWeather } from './room-weather.js?v=football-20260923';
+import { createWeather } from './room-weather.js?v=lagoon-20260924';
 import { createCharacterPicker } from './room-character-picker.js?v=dialog-default-20260923';
 
 export async function startRoomScene({ stage, canvas, links, onSelect, onBrowse }) {
@@ -42,6 +42,7 @@ export async function startRoomScene({ stage, canvas, links, onSelect, onBrowse 
     let room, island, player, resident;
     try { room = await createRoom(links, renderer); island = await createIsland(); player = await createPlayer(); resident = await createResident(renderer); } catch (error) { room?.dispose(); island?.dispose(); player?.dispose(); resident?.dispose(); renderer.dispose(); throw error; }
     stage.dataset.resident = resident.source;
+    stage.dataset.cottage = room.root.userData.exterior;
     scene.add(room.root, island.root, resident.root);
     const ferry = createFerry({ sea: island.sea, player });
     const ferryMarker = document.getElementById('ferry-marker'), ferryPanel = document.getElementById('ferry-panel');

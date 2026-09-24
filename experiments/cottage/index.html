@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<base href="../../"><title>小屋工艺实验 · Yeshu</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="experiments/cottage/experiment.css">
+<script type="importmap">{"imports":{"three":"./assets/vendor/three/three.module.min.js"}}</script>
+<script type="module" src="experiments/cottage/experiment.js"></script>
+</head>
+<body>
+<main id="experiment" data-state="loading" data-model="crafted" data-view="whole">
+<canvas id="experiment-canvas" aria-label="可拖动旋转、滚轮或双指缩放的小屋对比场景"></canvas>
+<header class="experiment-header"><div><a class="back" href="./">← 回到小岛</a><p class="eyebrow">YESHU / 小屋工艺实验 01</p><h1>同一座小屋，多一点讲究。</h1><p class="subtitle">切换模型，看看结构、贴图和光影带来的区别。</p></div><button id="process-button" aria-controls="process" type="button">实验说明 ↗</button></header>
+<div id="loading" role="status"><span></span><p>正在搬来两座小屋…</p></div>
+<div id="error" role="alert" hidden><p>小屋暂时没能加载。</p><button id="retry" type="button">重新加载</button></div>
+<aside class="study-note" aria-live="polite"><span id="model-number">B / 细节版</span><p id="model-note">逐片屋瓦、厚屋檐、凹入的门窗，<br>再把材质与缝隙暗部烘焙进贴图。</p></aside>
+<section class="experiment-controls" aria-label="小屋对比控制" inert>
+<div class="compare-switch" role="group" aria-label="选择小屋模型"><button type="button" data-model="original" aria-pressed="false"><span>A</span> 原版小屋</button><button type="button" data-model="crafted" aria-pressed="true"><span>B</span> 细节版小屋</button></div>
+<div class="inspection-row"><div class="camera-controls" role="group" aria-label="拉近查看"><button type="button" data-view="whole" aria-pressed="true">整体</button><button type="button" data-view="roof" aria-pressed="false">屋顶</button><button type="button" data-view="window" aria-pressed="false">门窗</button><button type="button" data-view="porch" aria-pressed="false">门廊</button></div><div class="render-controls"><button id="clay" type="button" aria-pressed="false">只看造型</button><button id="lighting" type="button" aria-pressed="false">换成侧光</button></div></div>
+<p class="control-hint">拖动旋转 · 滚轮 / 双指缩放 · 切换版本保持相同镜头和光照</p>
+</section>
+<dialog id="process" aria-labelledby="process-title"><button class="close" aria-label="关闭实验说明" type="button">×</button><p class="eyebrow">从制作到网页</p><h2 id="process-title" tabindex="-1" autofocus>这次，真的经过 Blender。</h2><ol><li><strong>先把结构做出来</strong><p>屋瓦有搭接，屋檐有厚度，门窗嵌进墙面，木构件边缘做倒角。</p></li><li><strong>把表面细节存成贴图</strong><p>烘焙颜色、粗糙度和缝隙暗部；阳光与主要投影仍在网页中实时计算。</p></li><li><strong>回到同一个场景比较</strong><p>Blender 模型导出为 GLB，和原版使用同一片岛、同一镜头、同一光照。</p></li></ol><p class="process-tip">试试「只看造型」：去掉贴图后仍然存在的层次，才是模型本身的细节。</p><p class="scope">这是外观实验，暂不包含进入小屋或人物行走，也尚未替换主页。模型由 Blender 脚本制作，源文件可继续编辑。</p></dialog>
+</main>
+</body></html>

@@ -1,7 +1,7 @@
 import RAPIER from './assets/vendor/rapier/rapier.mjs';
 import { coastPoint, islandTerrain, ISLAND, FOOTBALL_ISLAND, DOCK, FOOTBALL_DOCK, FOOTBALL_PALMS, PALMS, ROCKS } from './island-layout.js?v=ferry-20260923';
 
-import { CABIN, CABIN_DOOR, BED, BOOKCASE, ENTRY_POTS, INDOOR_PROPS, DESK, WORKBENCH } from './room-layout.js?v=room-clear-20260923';
+import { CABIN, CABIN_DOOR, cabinThresholdSurface, BED, BOOKCASE, ENTRY_POTS, INDOOR_PROPS, DESK, WORKBENCH } from './room-layout.js?v=crafted-20260924';
 
 let initialization;
 export async function createPlayer() {
@@ -28,7 +28,12 @@ export async function createPlayer() {
     }
     box('door-lintel', .7, 3.505, 3.74, 1.35, 1.51, .18);
     box('open-door-leaf', 1.375, 1.34, 3.025, .075, 2.62, 1.27);
-    for (let i = 0; i < 3; i++) box('entry-step', .7, -.08 - i * .10, 3.85 + i * .23, 1.6, .13, .34);
+    // Matches the authored porch deck (.12 top) and its two rounded steps.
+    const threshold = cabinThresholdSurface();
+    world.createCollider(RAPIER.ColliderDesc.trimesh(threshold.positions, threshold.indices));
+    box('porch-deck', .71, .055, 4.42, 3.4, .13, 1.45);
+    box('porch-upper-step', .7, -.08, 5.24, 2.7, .14, .37);
+    box('porch-lower-step', .7, -.19, 5.59, 3, .14, .37);
     box('desk', DESK.x, DESK.height / 2, DESK.z, DESK.width, DESK.height, DESK.depth);
     box('workbench', WORKBENCH.x, WORKBENCH.height / 2, WORKBENCH.z, WORKBENCH.width, WORKBENCH.height, WORKBENCH.depth, WORKBENCH.yaw);
     cylinder('desk-chair', INDOOR_PROPS.chair.x, INDOOR_PROPS.chair.z, .43, 1.31);
@@ -107,7 +112,7 @@ export async function createPlayer() {
         },
         relocate(indoors) {
             if (state.island !== 'home' || state.aboard) return;
-            place(.7, indoors ? .10 : -.22, indoors ? 2.95 : 4.8); world.step(); sync();
+            place(.7, indoors ? .10 : .16, indoors ? 2.95 : 4.8); world.step(); sync();
         },
         ride(position, heading) { state.aboard = true; place(position.x, position.y, position.z); state.heading = heading; },
         disembark(island, dock) { state.aboard = false; state.island = island; state.heading = undefined; place(dock.x, dock.top + .045, dock.end - .9); world.step(); sync(); },

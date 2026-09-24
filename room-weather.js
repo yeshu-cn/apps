@@ -11,8 +11,8 @@ const palettes = [
     [0, '#152d48', '#adc6ed', '#617689', '#b1c9ff'],
     [5, '#283d5b', '#a9a3bf', '#465163', '#b9caff'],
     [6, '#d4b5a0', '#ffe0b5', '#92907e', '#ffb975'],
-    [8, '#bed8cf', '#f7ecd7', '#819f8d', '#ffe4bb'],
-    [15.5, '#bed8cf', '#f7ecd7', '#819f8d', '#ffe4bb'],
+    [8, '#bed8cf', '#f0f6ff', '#93997b', '#fff0d5'],
+    [15.5, '#bed8cf', '#f0f6ff', '#93997b', '#fff0d5'],
     [18, '#bd9390', '#f8c7a6', '#91756c', '#ffab6e'],
     [19, '#596880', '#b5b6d6', '#57607b', '#c7cbff'],
     [20.5, '#152d48', '#adc6ed', '#617689', '#b1c9ff'],
@@ -86,10 +86,10 @@ export function createWeather({ scene, renderer, ambient, sun, fill, room, stage
         sun.color.copy(a.colors[3]).lerp(b.colors[3], mix);
         const altitude = Math.sin((hour - 6) / 12 * Math.PI);
         const daylight = T.MathUtils.smoothstep(altitude, -.23, .55), dim = WEATHER[weather].dim;
-        ambient.intensity = (.85 + daylight * .95) * (indoors ? .76 : 1) * (.8 + dim * .2);
-        sun.intensity = (Math.max(0, altitude) * 2.05 + Math.max(0, -altitude) * .42) * dim * (indoors ? .65 : 1);
+        ambient.intensity = (.65 + daylight * .70) * (indoors ? 1.01 : 1) * (.8 + dim * .2);
+        sun.intensity = (Math.max(0, altitude) * 2.65 + Math.max(0, -altitude) * .42) * dim * (indoors ? .50 : 1);
         sun.position.set(7 - Math.cos((hour - 6) / 12 * Math.PI) * 38, Math.max(8, Math.abs(altitude) * 43), 21);
-        fill.intensity = .35 + daylight * .30; fill.color.set(daylight > .3 ? '#c7cedf' : '#adcaff');
+        fill.intensity = .25 + daylight * .20; fill.color.set(daylight > .3 ? '#c7cedf' : '#adcaff');
         renderer.setClearColor(sky, 1); scene.fog.color.copy(sky);
         renderer.toneMappingExposure = .91 + daylight * .14;
         stage.dataset.night = String(daylight < .27);

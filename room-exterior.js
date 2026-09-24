@@ -118,6 +118,10 @@ export function buildExterior({ group, mesh, box, cylinder, oak, paleOak }) {
     box(traces.back, 'back-wall-footprint', plaster, 0, .10, -2.26, CABIN.width, .20, .18);
     box(traces.left, 'left-wall-footprint', plaster, -CABIN.sideX, .10, .70, .18, .20, 6.1);
     wallTrace.visible = false;
+    return createExteriorCutaway({ exterior, walls, windows, wallTrace, traces });
+}
+
+export function createExteriorCutaway({ exterior, walls, windows, wallTrace, traces }) {
     let indoors = false, initializeCutaway = true;
     const outward = { front: [0, 1], right: [1, 0], back: [0, -1], left: [-1, 0] };
     const pendingSince = Object.fromEntries(Object.keys(walls).map(id => [id, null]));

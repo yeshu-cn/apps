@@ -9,7 +9,8 @@ Run locally with `python3 -m http.server 5173 --bind 127.0.0.1`, then visit http
 The homepage opens with a full orthographic island view. The island is 44 × 34 nominal world units around an offset center; the 10 × 6.1 studio uses the same wider footprint inside and outside. Meadow, broad beaches, a long loop trail, palms, rocks, a hammock, a garden bench and a dock surround the complete cottage. Entering the room reveals the original desk, printer, Avata 2 and snowboard, plus a single bed along the left wall and a full-size bookcase beside the desk holding small app icon models.
 
 - `island-layout.js`: shared island dimensions, terrain mesh data, shoreline, outdoor obstacles.
-- `room-island.js`, `room-sea.js`: rendered terrain, sea, paths, vegetation, furniture, dock, moored dinghy and animated shoreline foam.
+- `room-island.js`, `room-sea.js`: rendered terrain, paths, vegetation, furniture, dock, moored dinghy and boat ripples.
+- `room-ocean.js`, `room-coast.js`: distance-based lagoon/deep-water shading, animated caustics and broken shoreline wash, one continuous submerged seabed, and instanced reef/plant clusters shared by both islands.
 - `room-weather.js`: simulated sunny/cloudy/rainy weather, local clock, full-day light/shadow/color changes and manual time preview. The clock follows the visitor device time; “回到此刻” restores it after scrubbing. Weather is explicitly simulated; no location permission or weather API is used.
 - `room-layout.js`: shared cottage footprint, physical window openings and furniture positions used by rendering and collision. The original four windows stay attached to their walls: two on the entrance wall, one on each side, and none on the back wall.
 - `room-model.js`, `room-exterior.js`, `room-furniture.js`, `room-atmosphere.js`: complete exterior, cutaway interior, equipment and furnishings.
@@ -70,3 +71,16 @@ The alpine Walk clip narrows the ankle spacing by about 40% and reduces toe-out 
 Desktop overview frames both islands side by side. Portrait overview rotates the camera to frame them vertically, while the follow view retains its previous character scale. The existing room view, orbit controls and character movement remain available.
 
 Walk to the end of the cottage pier, then press E, click the boat or use the boarding button. `room-ferry.js` boards the character and follows a 14-second route around the southern and eastern coast to the football pier. The camera starts following on boarding. At arrival, choose the disembark action or press E, then walk onto the pitch. The same boat waits there for the return trip. The room shortcut is unavailable on the football island or while aboard; the sea cannot be crossed on foot. Boarding and landing have short transitions, sailing disables movement, repeated boarding is ignored, and dialogs or weather controls pause the crossing. Deliberate ferry travel still works with reduced motion; hiding the page pauses the scene as before.
+
+## Lagoon detail and ended projects — 2026-09-24
+
+Both islands retain their layout and walking boundaries. The sea transitions from transparent turquoise shallows to deep blue using the same irregular coast profile as the terrain. A continuous seabed prevents overlap seams between the islands. Instanced reef clusters, broad-leaf plants, flowers and small stones add detail without a separate draw call per object; the existing reduced-motion and day/night/weather controls also apply to the water. Foreground UI uses light text against the deeper water.
+
+The bookshelf catalogue has “在做与已上线” (14 projects) and “已终止” (1 project) filters. 照理 / PhotoSort uses its original icon and is recorded as “已放弃 · 停止开发”. It also remains selectable as the fifteenth small icon on the physical bookcase. Its existing landing page is now a project record; privacy and support pages remain accessible. Opening an archived project selects its category and labels the destination “查看项目记录”; released apps retain their App Store action.
+
+
+### Crafted cottage applied locally (2026-09-24)
+
+The homepage now loads the accepted Blender cottage from `assets/cottage/cottage.glb` through `room-crafted-exterior.js`. Layered roof shingles, timber trim, recessed windows, shutters, flower boxes and the porch retain the study's baked material detail. Four independently controlled facades and the roof share the existing indoor cutaway behavior. Interior furniture, app icon selection, weather and ferry controls remain in the live scene. The left curtain assembly follows the new window position.
+
+The model's porch has matching deck/step colliders and a shared rendered/physical timber threshold for smooth entry and exit. `experiments/cottage/` still compares the original model with the accepted exterior. Source, segmentation and optimization instructions are in `experiments/cottage/README.md`. Runtime model size is approximately 2.33 MB; the Meshopt decoder and its license are vendored locally. Local browser and physics verification does not imply public deployment or physical-device performance validation.

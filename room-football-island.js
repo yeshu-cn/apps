@@ -27,7 +27,6 @@ export function createFootballIsland({ sand, sandMap, wood, palm }) {
         for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getX(i) / 4, uv.getY(i) / 4);
         const surface = mesh(name, geometry, mat, x, y, z); surface.rotation.x = -Math.PI / 2; surface.castShadow = false;
     }
-    shoreSurface('football-island-shallows', 1.13, -1.062, new T.MeshStandardMaterial({ color: '#a3d3c2', transparent: true, opacity: .24, depthWrite: false }));
     shoreSurface('football-island-meadow', .80, -.266, new T.MeshStandardMaterial({ color: '#a8b782', map: sandMap, roughness: 1 }));
 
     // Paint the markings once onto a local texture: clear at overview scale, no extra draw calls.
@@ -116,13 +115,6 @@ export function createFootballIsland({ sand, sandMap, wood, palm }) {
     for (const bx of [x - 3, x + 3]) {
         for (let i = 0; i < 3; i++) mesh('pitch-side-bench-seat', new T.BoxGeometry(2.5, .075, .14), wood, bx, .24, z - 8.3 + i * .16);
         for (const dx of [-.95, .95]) mesh('pitch-side-bench-leg', new T.BoxGeometry(.10, .49, .45), wood, bx + dx, -.01, z - 8.14);
-    }
-    for (const scale of [1.035, 1.065]) {
-        const points = Array.from({ length: 145 }, (_, i) => {
-            const p = coastPoint(i / 144 * Math.PI * 2, scale, FOOTBALL_ISLAND); return new T.Vector3(p.x, -1.045, p.z);
-        });
-        const foam = new T.Line(new T.BufferGeometry().setFromPoints(points), new T.LineBasicMaterial({ color: '#eef8e8', transparent: true, opacity: .22, depthWrite: false }));
-        foam.name = 'football-island-shore-foam'; root.add(foam);
     }
     return { root, dispose: () => pitchTexture.dispose() };
 }

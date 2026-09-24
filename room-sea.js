@@ -1,5 +1,5 @@
 import * as T from 'three';
-import { DOCK, FERRY_STOPS, coastPoint } from './island-layout.js?v=ferry-20260923';
+import { DOCK, FERRY_STOPS } from './island-layout.js?v=ferry-20260923';
 
 // The ferry controller owns horizontal travel; sea details add the water motion.
 export function createSeaDetails(root, wood) {
@@ -44,24 +44,6 @@ export function createSeaDetails(root, wood) {
     const mooring = new T.Vector3(DOCK.x + .8, -.03, 20.3);
     let sailing = false;
 
-    const waves = [], segments = 144;
-    for (let band = 0; band < 4; band++) {
-        const geometry = new T.BufferGeometry();
-        geometry.setAttribute('position', new T.BufferAttribute(new Float32Array((segments + 1) * 6), 3));
-        const colors = [];
-        for (let i = 0; i <= segments; i++) {
-            const angle = i / segments * Math.PI * 2;
-            const alpha = T.MathUtils.clamp(.45 + Math.sin(angle * 7 + band * 1.7) * .42 + Math.cos(angle * 19 - band) * .25, 0, 1);
-            for (let side = 0; side < 2; side++) colors.push(1, 1, 1, alpha);
-        }
-        geometry.setAttribute('color', new T.Float32BufferAttribute(colors, 4));
-        const indices = [];
-        for (let i = 0; i < segments; i++) { const k = i * 2; indices.push(k, k + 2, k + 1, k + 1, k + 2, k + 3); }
-        geometry.setIndex(indices);
-        const material = new T.MeshBasicMaterial({ color: '#eef8e8', transparent: true, opacity: 0, vertexColors: true, side: T.DoubleSide, depthWrite: false });
-        const mesh = new T.Mesh(geometry, material); mesh.name = `rolling-shore-foam-${band}`; mesh.frustumCulled = false; root.add(mesh);
-        waves.push(mesh);
-    }
     const ripple = add('boat-water-ripple', new T.RingGeometry(.88, .905, 64), new T.MeshBasicMaterial({ color: '#dbece2', transparent: true, opacity: .28, side: T.DoubleSide, depthWrite: false }), root);
     ripple.rotation.x = -Math.PI / 2; ripple.scale.set(1.12, 1.9, 1); ripple.position.set(boat.position.x, seaLevel + .008, boat.position.z); ripple.castShadow = false;
     function update(time, reduced, weather = 'sunny', daylight = 1) {
@@ -78,22 +60,6 @@ export function createSeaDetails(root, wood) {
             tetherPositions.setXYZ(i, T.MathUtils.lerp(mooring.x, worldCleat.x, u), T.MathUtils.lerp(mooring.y, worldCleat.y, u) - Math.sin(u * Math.PI) * .15, T.MathUtils.lerp(mooring.z, worldCleat.z, u));
         }
         tetherPositions.needsUpdate = true; tetherGeometry.computeBoundingSphere();
-        waves.forEach((wave, band) => {
-            const phase = (t * .10 + band / waves.length) % 1;
-            const radius = 1.09 - phase * .097;
-            const pos = wave.geometry.attributes.position;
-            for (let i = 0; i <= segments; i++) {
-                const angle = i / segments * Math.PI * 2;
-                const offset = Math.sin(angle * 15 + t * .45) * .0015;
-                const width = (.0018 + Math.sin(phase * Math.PI) * .003) * (1 + .36 * Math.sin(angle * 23 + band));
-                for (let side = 0; side < 2; side++) {
-                    const p = coastPoint(angle, radius + offset + side * width);
-                    pos.setXYZ(i * 2 + side, p.x, seaLevel + .027 + band * .002, p.z);
-                }
-            }
-            pos.needsUpdate = true;
-            wave.material.opacity = Math.pow(Math.sin(phase * Math.PI), 1.3) * .56 * (.30 + daylight * .70);
-        });
         ripple.material.opacity = (.20 + Math.sin(t * 1.1) * .07) * (.3 + daylight * .7);
     }
     update(0, true);

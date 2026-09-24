@@ -24,3 +24,13 @@ export const ROOM_VIEW = {
     target: [0, 1.65, .70], home: [5.8, 6.6, 10.4],
     halfHeight: 4.65, halfWidth: 6.45, minDistance: 9, maxDistance: 20,
 };
+
+// A shallow timber threshold bridges the interior floor and the taller crafted porch.
+export const CABIN_THRESHOLD = { x: .70, width: 1.30, startZ: 3.15, endZ: 3.80, startY: .047, endY: .14 };
+export function cabinThresholdSurface() {
+    const { x, width, startZ, endZ, startY, endY } = CABIN_THRESHOLD;
+    return {
+        positions: new Float32Array([x-width/2,startY,startZ, x+width/2,startY,startZ, x+width/2,endY,endZ, x-width/2,endY,endZ]),
+        indices: new Uint32Array([0,2,1,0,3,2]),
+    };
+}

@@ -1,22 +1,24 @@
 import * as T from 'three';
+import { createOcean } from './room-ocean.js?v=lagoon-20260924';
+import { createCoastalDetails } from './room-coast.js?v=lagoon-20260924';
 import { ENTRY_POTS } from './room-layout.js?v=room-clear-20260923';
-import { createSeaDetails } from './room-sea.js?v=ferry-20260923';
-import { createFootballIsland } from './room-football-island.js?v=ferry-20260923';
+import { createSeaDetails } from './room-sea.js?v=lagoon-20260924';
+import { createFootballIsland } from './room-football-island.js?v=lagoon-20260924';
 import { ISLAND, DOCK, coastPoint, islandTerrain, PALMS, ROCKS } from './island-layout.js';
 
 const v = (x, y, z) => new T.Vector3(x, y, z);
 
 // A continuous shoreline wraps the studio; no rectangular ocean platform or copied island layout.
-export async function createIsland() {
+export async function createIsland({ craftedPorch = true } = {}) {
     const root = new T.Group(); root.name = 'studio-island';
     const loader = new T.TextureLoader();
     const [sandMap, waterMap, woodMap] = await Promise.all(['island-sand.webp', 'island-water.webp', 'room-oak.webp'].map(file => loader.loadAsync(`assets/${file}`)));
     for (const texture of [sandMap, waterMap, woodMap]) { texture.colorSpace = T.SRGBColorSpace; texture.wrapS = texture.wrapT = T.RepeatWrapping; texture.anisotropy = 4; }
-    waterMap.repeat.set(54, 54);
+    waterMap.repeat.set(65, 65);
     const material = (color, extra = {}) => new T.MeshStandardMaterial({ color, roughness: .9, ...extra });
-    const sand = material('#efe3c4', { map: sandMap });
+    const sand = material('#fff0ce', { map: sandMap });
     const wood = material('#ccb189', { map: woodMap });
-    const foliage = ['#477c60', '#65916a', '#7da074'].map(color => material(color));
+    const foliage = ['#367747', '#62983e', '#85b74c'].map(color => material(color));
     const rockMats = ['#a9b3a3', '#c5c5ad', '#96a699'].map(color => material(color, { flatShading: true }));
     function mesh(name, geometry, mat, x = 0, y = 0, z = 0, parent = root) {
         const object = new T.Mesh(geometry, mat); object.name = name; object.position.set(x, y, z);
@@ -43,7 +45,7 @@ export async function createIsland() {
         if (i < 80) meadowIndices.push(0, i + 2, i + 1);
     }
     const meadow = new T.BufferGeometry(); meadow.setAttribute('position', new T.Float32BufferAttribute(meadowPoints, 3)); meadow.setAttribute('uv', new T.Float32BufferAttribute(meadowUVs, 2)); meadow.setIndex(meadowIndices); meadow.computeVertexNormals();
-    mesh('soft-island-meadow', meadow, material('#a8b782', { map: sandMap }));
+    mesh('soft-island-meadow', meadow, material('#9db66d', { map: sandMap }));
     function gardenPath(name, points, width) {
         const curve = new T.CatmullRomCurve3(points.map(([x, z]) => v(x, -.252, z)));
         const vertices = [], uv = [], triangles = [];
@@ -59,26 +61,12 @@ export async function createIsland() {
     gardenPath('western-garden-walk', [[.7, 5.2], [-3.2, 5.8], [-6.0, 7.4], [-6.9, 10.2], [-4.6, 11.3], [1.4, 10.3], [4.6, 8.3]], .82);
     gardenPath('long-island-trail', [[4.6, 8.3], [9.3, 6.7], [14.7, 7.2], [18.4, 5.8], [19.0, 1.1], [16.9, -3.5], [10.2, -5.7], [5.2, -6.2], [.7, -4.8], [-5.8, -4.1], [-7.0, 1.1], [-6.0, 7.4]], .78);
 
-    const waterMaterial = material('#a6d2c8', { map: waterMap, roughness: .75, metalness: .02 });
-    // Keep generated caustics visible but quiet enough to leave the room as the focal point.
-    waterMaterial.onBeforeCompile = shader => {
-        shader.uniforms.waterTint = { value: new T.Color('#599eab') };
-        shader.fragmentShader = `uniform vec3 waterTint;\n${shader.fragmentShader}`.replace('#include <map_fragment>', '#include <map_fragment>\ndiffuseColor.rgb = mix(waterTint, diffuseColor.rgb, 0.55);');
-    };
-    const water = mesh('quiet-open-sea', new T.PlaneGeometry(800, 800), waterMaterial, 0, -1.075, 0);
-    water.rotation.x = -Math.PI / 2; water.castShadow = false;
-    // The shallow seabed gives the coast a lighter turquoise margin under the real water surface.
-    const shallow = mesh('shallow-lagoon', new T.CircleGeometry(1, 96), material('#a3d3c2', { transparent: true, opacity: .24, depthWrite: false }), ISLAND.x, -1.062, ISLAND.z);
-    const shallowPos = shallow.geometry.attributes.position;
-    for (let i = 1; i < shallowPos.count; i++) {
-        const angle = Math.atan2(shallowPos.getY(i), shallowPos.getX(i)), point = shore(angle, 1.14, -1.062);
-        shallowPos.setXYZ(i, point.x - ISLAND.x, -(point.z - ISLAND.z), 0);
-    }
-    shallow.geometry.computeVertexNormals(); shallow.rotation.x = -Math.PI / 2; shallow.castShadow = false;
+    const ocean = createOcean(root, waterMap);
+    createCoastalDetails(root, sandMap);
     const sea = createSeaDetails(root, wood);
 
     // Small steps and a weathered dock establish the relationship between home and beach.
-    for (let i = 0; i < 3; i++) box('cabin-entry-step', .7, -.08 - i * .10, 3.85 + i * .23, 1.6, .13, .34);
+    if (!craftedPorch) for (let i = 0; i < 3; i++) box('cabin-entry-step', .7, -.08 - i * .10, 3.85 + i * .23, 1.6, .13, .34);
     for (let i = 0; i < 29; i++) box('dock-plank', DOCK.x, -.30, DOCK.start + i * .245, DOCK.width, .085, .226);
     for (const z of [15.8, 18.0, 20.3, 22.5]) for (const x of [7.2, 8.8]) {
         mesh('dock-timber-post', new T.CylinderGeometry(.075, .095, 1.2, 9), wood, x, -.60, z);
@@ -90,7 +78,7 @@ export async function createIsland() {
         mesh('dock-rope', new T.TubeGeometry(new T.CatmullRomCurve3(points), 30, .018, 5, false), rope);
     }
     for (let i = 0; i < 5; i++) {
-        const stone = mesh('stepping-stone', new T.CylinderGeometry(.22, .25, .024, 6), rockMats[1], .78 + i * .13, -.232, 4.68 + i * .29); stone.rotation.y = i * .7;
+        const stone = mesh('stepping-stone', new T.CylinderGeometry(.22, .25, .024, 6), rockMats[1], .78 + i * .13, -.232, (craftedPorch ? 5.92 : 4.68) + i * .29); stone.rotation.y = i * .7;
     }
 
     function palm(x, z, height, lean) {
@@ -166,7 +154,7 @@ export async function createIsland() {
         },
         update(time, reduced, weather, daylight) {
             sea.update(time, reduced, weather, daylight);
-            waterMap.offset.set(reduced ? 0 : time * .0007, reduced ? 0 : time * .00035);
+            ocean.update(time, reduced);
         },
         dispose() {
             footballIsland.dispose();

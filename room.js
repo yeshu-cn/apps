@@ -6,6 +6,15 @@ const details = document.getElementById('app-detail');
 const browse = document.querySelector('.skip-link');
 const shelfButton = document.getElementById('bookcase-marker');
 let browseOpener = browse;
+const shelfFilters = [...document.querySelectorAll('[data-shelf-filter]')];
+function selectShelf(category) {
+    shelfFilters.forEach(button => {
+        const selected = button.dataset.shelfFilter === category;
+        button.setAttribute('aria-pressed', String(selected));
+        document.getElementById(button.getAttribute('aria-controls')).hidden = !selected;
+    });
+}
+shelfFilters.forEach(button => button.addEventListener('click', () => selectShelf(button.dataset.shelfFilter)));
 function setBrowse(open, opener = browse) {
     if (open) browseOpener = opener;
     shelfButton.setAttribute('aria-expanded', String(open));
@@ -16,7 +25,7 @@ function setBrowse(open, opener = browse) {
 shelfButton.addEventListener('click', () => { setBrowse(true, shelfButton); document.getElementById('close-objects').focus({ preventScroll: true }); });
 document.getElementById('close-objects').addEventListener('click', () => setBrowse(false));
 document.querySelector('.skip-link').addEventListener('click', event => {
-    event.preventDefault(); setBrowse(true); links[0].focus({ preventScroll: true });
+    event.preventDefault(); setBrowse(true); links.find(link => !link.closest('[hidden]'))?.focus({ preventScroll: true });
 });
 document.addEventListener('keydown', event => {
     if (event.key === 'Escape' && !panels.some(panel => panel.open) && stage.dataset.showApps === 'true') { setBrowse(false); }
@@ -35,13 +44,14 @@ function openPanel(panel, opener) {
 function openApp(id, opener) {
     const app = links.find(link => link.dataset.app === id);
     if (!app || !details.showModal) return;
+    selectShelf(app.dataset.category || 'active');
     document.getElementById('detail-title').textContent = app.querySelector('.object-name').textContent;
     document.getElementById('detail-description').textContent = app.dataset.description;
     document.getElementById('detail-status').textContent = app.dataset.status;
     document.getElementById('detail-icon').src = app.querySelector('img').src;
     const destination = document.getElementById('detail-link');
     destination.href = app.href;
-    destination.querySelector('span').textContent = app.href.includes('apps.apple.com/') ? '前往 App Store' : '去看看';
+    destination.querySelector('span').textContent = app.dataset.category === 'ended' ? '查看项目记录' : app.href.includes('apps.apple.com/') ? '前往 App Store' : '去看看';
     openPanel(details, opener || app);
 }
 const normalClick = event => event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
@@ -73,7 +83,7 @@ function openFromHash() {
 }
 addEventListener('hashchange', openFromHash); openFromHash();
 
-import('./room-scene.js?v=dialog-default-20260923').then(({ startRoomScene }) => startRoomScene({ stage, canvas: document.getElementById('room-canvas'), links, onSelect: openApp, onBrowse: () => { setBrowse(true, shelfButton); document.getElementById('close-objects').focus({ preventScroll: true }); } })).catch(error => {
+import('./room-scene.js?v=crafted-20260924').then(({ startRoomScene }) => startRoomScene({ stage, canvas: document.getElementById('room-canvas'), links, onSelect: openApp, onBrowse: () => { setBrowse(true, shelfButton); document.getElementById('close-objects').focus({ preventScroll: true }); } })).catch(error => {
     stage.dataset.renderer = 'fallback';
     document.getElementById('room-controls').hidden = true;
     console.warn('The 3D room is unavailable; showing the reload prompt.', error);

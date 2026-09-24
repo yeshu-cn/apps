@@ -3,13 +3,14 @@ import { GLTFLoader } from './assets/vendor/three/addons/loaders/GLTFLoader.js';
 import { RoomEnvironment } from './assets/vendor/three/addons/environments/RoomEnvironment.js';
 import { furnishStudio } from './room-furniture.js?v=room-clear-20260923';
 import { makeAtmosphere } from './room-atmosphere.js?v=room-clear-20260923';
+import { buildCraftedExterior } from './room-crafted-exterior.js?v=crafted-20260924';
 import { buildExterior } from './room-exterior.js?v=room-wide-20260923';
 import { CABIN, BOOKCASE, INDOOR_PROPS } from './room-layout.js?v=room-clear-20260923';
 
 const v = (x, y, z) => new T.Vector3(x, y, z);
 
 // A finite cutaway studio on an island; app anchors use this unchanged world origin.
-export async function createRoom(apps = [], renderer) {
+export async function createRoom(apps = [], renderer, { exterior: exteriorStyle = 'crafted' } = {}) {
     const loader = new T.TextureLoader();
     const sources = {
         oak: 'assets/room-oak.webp', desktop: 'assets/atlas-map-desktop.webp',
@@ -154,8 +155,10 @@ export async function createRoom(apps = [], renderer) {
     cylinder(coffee, 'coffee-surface', '#76624d', 0, .21, 0, .069, .069, .006);
     mesh(coffee, 'cup-handle', new T.TorusGeometry(.069, .017, 8, 20), '#eee6d3', .097, .11, 0);
     makeAtmosphere({ root, group, mesh, box, rounded, cylinder, beam, mat, oak, paleOak, textures, bookcase, desk: furniture.desk });
-    const exterior = buildExterior({ group, mesh, box, cylinder, oak, paleOak });
+    const exterior = await (exteriorStyle === 'original' ? buildExterior : buildCraftedExterior)({ group, mesh, box, cylinder, oak, paleOak });
+    root.userData.exterior = exteriorStyle;
     // Wall-mounted decor follows the corresponding wall during a camera cutaway.
+    if (exteriorStyle === 'crafted') root.getObjectByName('linen-curtains').position.z += .75;
     root.updateMatrixWorld(true);
     exterior.walls.left.attach(root.getObjectByName('linen-curtains'));
     for (const name of ['landscape-frame', 'quiet-landscape-print']) exterior.walls.back.attach(root.getObjectByName(name));
