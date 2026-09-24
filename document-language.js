@@ -1,4 +1,4 @@
-// Shared by the two legacy bilingual pages; each retains its original document text.
+// Shared language switch for bilingual legal documents.
 const page = document.querySelector('[data-language-page]');
 if (page) {
     const chinese = document.getElementById('chinese');
@@ -16,6 +16,10 @@ if (page) {
         document.querySelectorAll('[data-text-zh][data-text-en]').forEach((element) => {
             element.textContent = isEnglish ? element.dataset.textEn : element.dataset.textZh;
         });
+        const anchoredSection = location.hash.replace(/-en$/, '');
+        if (anchoredSection === '#privacy' || anchoredSection === '#terms') {
+            history.replaceState({}, '', location.pathname + location.search + anchoredSection + (isEnglish ? '-en' : ''));
+        }
         button.textContent = isEnglish ? '简体中文' : 'English';
         button.lang = isEnglish ? 'zh-CN' : 'en';
         button.setAttribute('aria-label', isEnglish ? 'Switch to Simplified Chinese' : '切换到英文');

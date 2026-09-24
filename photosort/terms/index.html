@@ -1,5 +1,13 @@
 <!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>隐私与用户协议 · 照理</title><link rel="canonical" href="https://app.yeshu.fun/photosort/legal/">
-<meta http-equiv="refresh" content="0;url=https://app.yeshu.fun/photosort/legal/#terms"></head>
-<body><p>照理的用户协议已合并到同一页面。<a href="https://app.yeshu.fun/photosort/legal/#terms">查看完整隐私与用户协议</a></p></body></html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>使用协议与隐私政策</title>
+<link rel="canonical" href="https://app.yeshu.fun/photosort/legal/">
+<meta http-equiv="refresh" content="0;url=/photosort/legal/">
+<script>
+const target = new URL("/photosort/legal/", window.location.origin);
+if (new URLSearchParams(window.location.search).get('lang') === 'en') target.searchParams.set('lang', 'en');
+target.hash = window.location.hash;
+window.location.replace(target.href);
+</script>
+</head><body><p><a href="/photosort/legal/">使用协议与隐私政策</a></p></body></html>
