@@ -53,7 +53,7 @@ h1, h2, h3, p { margin: 0; }
 .page:has(.room-stage:not([data-renderer="ready"])) { background: var(--paper); }
 .page:has(.room-stage:not([data-renderer="ready"])) :is(.site-header, .intro, .intro p, .site-footer) { color: var(--ink); text-shadow: none; }
 .page:has(.room-stage:not([data-renderer="ready"])) .site-header .ui-icon { filter: none; }
-.objects { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 570px; margin: 0 auto; padding: 260px 24px 130px; gap: 8px 16px; position: relative; z-index: 2; }
+.objects { display: none; grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 570px; margin: 0 auto; padding: 260px 24px 130px; gap: 8px 16px; position: relative; z-index: 2; }
 .objects-heading { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
 .objects-heading p { color: #8a8979; font-size: 10px; letter-spacing: .1em; margin-bottom: 7px; }
 .objects-heading h2 { font: 500 22px/1.4 "Songti SC", "STSong", Georgia, serif; color: #4e594b; }
@@ -64,7 +64,7 @@ h1, h2, h3, p { margin: 0; }
 .object-copy { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
 .object-name { font-size: 11px; line-height: 1.45; overflow-wrap: anywhere; }
 .object-copy small { font-size: 9px; color: #8a907f; }
-.room-stage[data-renderer="ready"] .objects { display: none; }
+.page:has(.room-stage:not([data-renderer="ready"])) .skip-link { display: none; }
 .room-stage[data-renderer="ready"][data-show-apps="true"] .objects { position: absolute; right: 4vw; bottom: 118px; display: grid; width: min(460px, calc(100% - 48px)); max-height: calc(100svh - 230px); margin: 0; padding: 25px; overflow-y: auto; overscroll-behavior: contain; border: 1px solid #fff9; border-radius: 16px; background: #f2efe5f7; box-shadow: 0 12px 55px #263d3826; backdrop-filter: blur(18px); scrollbar-width: thin; }
 .room-stage[data-renderer="ready"][data-show-apps="true"] #close-objects { display: flex; }
 .bookcase-marker { pointer-events: none; position: absolute; z-index: 1; transform: translate(-50%, -100%); min-width: 72px; min-height: 36px; padding: 8px 10px; opacity: 0; border: 1px solid #fff7; border-radius: 20px; background: #f2ebdfe8; color: #65725d; font-size: 10px; transition: opacity .16s; }
@@ -203,14 +203,16 @@ button.resident-marker:hover { background: #365a4e; }
 
 .app-hover-label { position: absolute; z-index: 2; transform: translate(-50%, -100%); padding: 7px 11px; border-radius: 16px; background: #f4efdfed; color: #53604f; box-shadow: 0 3px 15px #243d2a14; font-size: 10px; white-space: nowrap; pointer-events: none; }
 
-/* Loading is distinct from the accessible fallback catalogue. Without JS, links stay visible. */
+/* The catalogue is available only after the scene is ready and explicitly opened. */
 .scene-loading-message, .scene-failure-message, .scene-slow-message { display: none; }
-html[data-scene-boot="loading"] .room-stage:not([data-renderer]):not([data-show-apps="true"]) .objects { display: none; }
 html[data-scene-boot="loading"] .room-stage:not([data-renderer]):not([data-show-apps="true"]) { height: 100svh; }
 html[data-scene-boot="loading"] .page:has(.room-stage:not([data-renderer]):not([data-show-apps="true"])) { background: #bed8cf; }
 html[data-scene-boot="loading"] .room-stage:not([data-renderer]):not([data-show-apps="true"]) .scene-loading-message { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px; pointer-events: none; color: #48685d; font-size: 12px; letter-spacing: .08em; }
 .scene-loading-dot { width: 8px; height: 8px; border-radius: 50%; background: #648777; box-shadow: -18px 0 #64877755, 18px 0 #64877755; animation: scene-loading-pulse 1.4s ease-in-out infinite; }
 @keyframes scene-loading-pulse { 50% { opacity: .3; } }
 .room-stage[data-renderer="fallback"] .scene-failure-message,
-html[data-scene-boot="slow"] .room-stage:not([data-renderer]) .scene-slow-message { display: block; position: absolute; top: 225px; left: 24px; right: 24px; text-align: center; font-size: 12px; line-height: 1.7; color: #748073; }
+html[data-scene-boot="slow"] .room-stage:not([data-renderer]) .scene-slow-message,
+.scene-noscript-message { display: flex; position: absolute; inset: 0 24px; align-items: center; justify-content: center; flex-direction: column; gap: 16px; text-align: center; font-size: 12px; line-height: 1.7; color: #748073; }
+.scene-retry { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 22px; border: 1px solid var(--line); border-radius: 24px; color: var(--ink); }
+.scene-retry:hover { background: #e5e7dc; }
 @media (prefers-reduced-motion: reduce) { .scene-loading-dot { animation: none; } }

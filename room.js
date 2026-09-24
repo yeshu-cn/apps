@@ -76,7 +76,7 @@ addEventListener('hashchange', openFromHash); openFromHash();
 import('./room-scene.js?v=dialog-default-20260923').then(({ startRoomScene }) => startRoomScene({ stage, canvas: document.getElementById('room-canvas'), links, onSelect: openApp, onBrowse: () => { setBrowse(true, shelfButton); document.getElementById('close-objects').focus({ preventScroll: true }); } })).catch(error => {
     stage.dataset.renderer = 'fallback';
     document.getElementById('room-controls').hidden = true;
-    console.warn('The 3D room is unavailable; all app links remain usable.', error);
+    console.warn('The 3D room is unavailable; showing the reload prompt.', error);
 }).finally(() => {
     clearTimeout(window.roomBootTimer);
     delete document.documentElement.dataset.sceneBoot;

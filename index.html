@@ -13,9 +13,9 @@
             if (!document.querySelector('#room-stage[data-renderer="ready"]')) document.documentElement.dataset.sceneBoot = 'slow';
         }, 20000);
     </script>
-    <link rel="stylesheet" href="room.css?v=dialog-default-20260923">
+    <link rel="stylesheet" href="room.css?v=scene-failure-20260924">
     <script type="importmap">{"imports":{"three":"./assets/vendor/three/three.module.min.js"}}</script>
-    <script type="module" src="room.js?v=dialog-default-20260923"></script>
+    <script type="module" src="room.js?v=scene-failure-20260924"></script>
 </head>
 <body>
 <div class="page">
@@ -29,8 +29,9 @@
         <section class="room-stage" id="room-stage" aria-label="海岛小屋与旁边的足球岛：小屋内有电脑桌、工作台、3D 打印机、Avata 2 穿越机和作品书架，邻岛上有草坪足球场" data-view="island">
             <canvas class="room-canvas" id="room-canvas" aria-hidden="true"></canvas>
             <div class="scene-loading-message" role="status"><span class="scene-loading-dot" aria-hidden="true"></span><p>正在前往小岛…</p></div>
-            <p class="scene-failure-message" role="status">暂时无法打开小岛，仍可在这里浏览作品。</p>
-            <p class="scene-slow-message" role="status">小岛加载较慢，可以先浏览作品。</p>
+            <div class="scene-failure-message" role="status"><p>暂时无法打开小岛。</p><a class="scene-retry" href="./">重新加载</a></div>
+            <p class="scene-slow-message" role="status">小岛加载较慢，请稍候或刷新重试。</p>
+            <noscript><p class="scene-noscript-message">请启用 JavaScript 后重新加载小岛。</p></noscript>
             <button id="resident-marker" class="resident-marker" type="button" aria-label="和人物打个招呼" title="打个招呼" hidden>你</button>
             <button id="ferry-marker" class="ferry-marker" type="button" hidden>码头 · 乘船</button>
             <div id="ferry-panel" class="ferry-panel" hidden><p id="ferry-status" role="status" aria-live="polite"></p><button id="ferry-action" type="button">上船去足球岛</button><span class="ferry-key-hint">也可以按 E</span></div>
