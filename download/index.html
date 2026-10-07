@@ -21,6 +21,10 @@
    .dl-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 22px 0 0; }
    .dl-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 24px; border-radius: 999px; background: var(--accent); color: #fff; font-size: 14px; line-height: 1.2; }
    .dl-btn:hover { text-decoration: none; opacity: .92; }
+   /* 站点样式里的 .document-main a 会把按钮文字染成主题绿（绿底绿字 = 看不见），
+      这里用同等特异度、靠后覆盖回来。 */
+   .document-main a.dl-btn { color: #fff; }
+   .document-main a.dl-btn-ghost { color: var(--accent); }
    .dl-btn-ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
    .dl-btn-off { background: transparent; color: var(--muted); border: 1px dashed #253e3440; cursor: default; }
    .dl-btn-off:hover { opacity: 1; }
