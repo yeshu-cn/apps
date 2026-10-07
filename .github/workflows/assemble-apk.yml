@@ -1,0 +1,49 @@
+name: Assemble APK from parts
+
+# The APK parts are uploaded through the GitHub API (github.com over the
+# author's link is too slow for a 60 MB push). This job joins them back into
+# the real .apk, commits it, and removes the parts — all on the runner, where
+# the network is fast.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Concatenate parts into the APK
+        run: |
+          set -euo pipefail
+          cd download/.parts
+          shopt -s nullglob
+          found=0
+          for first in *.part00; do
+            name="${first%.part00}"
+            echo "Assembling ${name}"
+            cat "${name}".part* > "../../download/${name}"
+            found=1
+          done
+          if [ "$found" -eq 0 ]; then
+            echo "No .part00 files found" >&2
+            exit 1
+          fi
+          cd ../..
+          ls -l download
+          sha256sum download/*.apk
+
+      - name: Commit the APK and drop the parts
+        run: |
+          set -euo pipefail
+          git config user.name "yeshu-apps-bot"
+          git config user.email "guan.android2011@gmail.com"
+          git rm -q -r download/.parts
+          git add download
+          git commit -m "Assemble APK from uploaded parts"
+          git push
