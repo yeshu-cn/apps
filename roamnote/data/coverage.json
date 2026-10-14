@@ -1,6 +1,6 @@
 {
   "snapshot": "2026-10-14",
-  "build": "1.0 (9)",
+  "build": "1.0 (10)",
   "countriesAndTerritories": 241,
   "countriesWithAdditionalBoundaries": 15,
   "focusCountries": [
@@ -19420,6 +19420,26 @@
       "sha256": "7df4f8bee17c0866597b1f055fa7eb6ee02f4179875a565e7f0075f427b3385b",
       "id": "ZWE-ADM3",
       "originalLicenseReference": "data.humdata.org/dataset/zimbabwe-administrative-levels-0-3-boundaries"
+    },
+    {
+      "id": "CHN-OSM-2026",
+      "boundaryISO": "CHN",
+      "boundaryType": "ADM1/ADM2",
+      "boundaryYearRepresented": "2026",
+      "boundarySource": "© OpenStreetMap contributors; Natural Earth public-domain fallback for 3 provinces",
+      "boundaryLicense": "ODbL 1.0",
+      "downloadURL": "https://www.openstreetmap.org/copyright",
+      "licenseSource": "https://opendatacommons.org/licenses/odbl/1-0/"
+    },
+    {
+      "id": "NE-LAND-10M",
+      "boundaryISO": "WORLD",
+      "boundaryType": "Physical land",
+      "boundaryYearRepresented": "5.1.1",
+      "boundarySource": "Natural Earth, 1:10 million land, version 5.1.1",
+      "boundaryLicense": "Public Domain",
+      "downloadURL": "https://naturalearth.s3.amazonaws.com/10m_physical/ne_10m_land.zip",
+      "licenseSource": "https://www.naturalearthdata.com/about/terms-of-use/"
     }
   ]
 }
