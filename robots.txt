@@ -1,1 +1,1 @@
-Sitemap: https://app.yeshu.fun/makebuddy/sitemap.xml
+Sitemap: https://app.yeshu.fun/sitemap.xml
